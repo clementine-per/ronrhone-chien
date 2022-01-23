@@ -19,11 +19,11 @@
                             <strong>{{adoption_paiement}}</strong> adoptions en attente de paiement complet pour montant total de <strong>{{adoption_paiement_montant.montant_restant__sum}} €</strong>
                         </a></p>
                         <p><a class="text-secondary" href= "{% url 'adoptions' %}?visite_controle=NON&date_visite_max={{today_str}}&sterilise=OUI">
-                            <strong>{{adoption_post}}</strong> animaux attendant leur viste post adoption
+                            <strong>{{adoption_post}}</strong> chiens attendant leur viste post adoption
                         </a></p>
                         <p><a class="text-secondary"
                               href= "{% url 'adoptions' %}?sterilise=NON&date_naissance_max={{interval_7_months_ago_str}}&statuts=ADOPTION&statuts=ADOPTE&statuts=ADOPTE_DEFINITIF">
-                            <strong>{{adoption_ste}}</strong> animaux adoptés de plus de 7 mois non stérilisés
+                            <strong>{{adoption_ste}}</strong> chiens adoptés de plus de 7 mois non stérilisés
                         </a></p>
                         <p><a class="text-secondary" href= "{% url 'adoptions' %}?visite_controle=VACCIN&visite_controle=ALIMENTAIRE">
                             <strong>{{adoption_controle}}</strong> post visites à contrôler (Vaccin ou Transition alimentaire)
@@ -47,13 +47,13 @@
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-3">Santé</div>
                         <p><a class="text-secondary" href= "{% url 'animals' %}?statuts=SOIN"><strong>{{soins}}</strong> animaux en suivi santé rapproché</a></p>
                         <p><a class="text-secondary" href= "{% url 'animals' %}?{{statuts_association_filter}}soin_manquant=OUI"><strong>{{soins_manquants}}
-                            </strong> animaux pour lesquels un soin (tests, vaccin, stérilisation, identification) est manquant</a>
+                            </strong> chiens pour lesquels un soin (tests, vaccin, stérilisation, identification) est manquant</a>
                         </p>
                         <p><a class="text-secondary" href= "{% url 'animals' %}?{{statuts_association_filter}}date_prochain_vaccin_min={{today_str}}&date_prochain_vaccin_max={{interval_10_str}}">
-                            <strong>{{vaccins}}</strong> animaux à vacciner dans les 10 jours
+                            <strong>{{vaccins}}</strong> chiens à vacciner dans les 10 jours
                         </a></p>
                         <p><a class="text-secondary" href= "{% url 'animals' %}?{{statuts_association_filter}}date_prochain_vaccin_max={{today_str}}">
-                            <strong>{{vaccins_retard}}</strong> animaux avec un retard de vaccin
+                            <strong>{{vaccins_retard}}</strong> chiens avec un retard de vaccin
                         </a></p>
                         <p><a class="text-secondary" href= "{% url 'adoptions' %}?bon_envoye=NON"><strong>{{bon_a_envoyer}}</strong> bons de stérilisation à envoyer</a></p>
                         <p><a class="text-secondary" href= "{% url 'adoptions' %}?bon_utilise=NON&date_expiration_min={{today_str}}&date_expiration_max={{interval_10_str}}">
@@ -93,16 +93,8 @@
                         <p><a class="text-secondary" href= "{% url 'familles' %}?statut=A_VISITER"><strong>{{visites}}</strong> FA à visiter</a></p>
                         <p><a class="text-secondary" href= "{% url 'animals' %}?{{statuts_association_filter}}sans_fa=OUI"><strong>{{a_placer}}</strong> animaux à placer</a></p>
                         <p><a class="text-secondary" href= "{% url 'familles' %}?vide=NON&date_indispo_min={{today_str}}&date_indispo_max={{interval_10_str}}">
-                            <strong> {{a_deplacer_10}} </strong> animaux à déplacer dans moins de 10 jours
+                            <strong> {{a_deplacer_10}} </strong> chiens à déplacer dans moins de 10 jours
                         </a></p>
-                        <p><a class="text-secondary"
-                              href= "{% url 'animals' %}?statuts=ADOPTABLE&statuts=A_ADOPTER&nekosable=OUI">
-                            <strong>{{nb_nekosables}}</strong> animaux nekosables</a> dont
-                            <a class="text-secondary"
-                              href= "{% url 'animals' %}?statuts=ADOPTABLE&statuts=A_ADOPTER&vaccin_ok=OUI&sterilise=OUI&nekosable=OUI&fiv_felv=OUI&identifie=OUI">
-                                <strong>{{nb_nekosables_prets}}</strong>
-                            avec tous les soins effectués.</a>
-                        </p>
                         <p><a class="text-secondary" href= "{% url 'familles' %}?a_deplacer=OUI"><strong>{{accueils_a_deplacer}}</strong> accueils arrivants à terme</a></p>
                     </div>
                     <div class="col-auto">

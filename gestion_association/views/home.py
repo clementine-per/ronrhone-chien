@@ -98,13 +98,6 @@ def index(request):
         .filter(indisponibilite__date_debut__lte=interval_10).count()
     # Animaux à déplacer manuellement (accueils arrivant à terme)
     accueils_a_deplacer = Accueil.objects.filter(statut=StatutAccueil.A_DEPLACER.name).count()
-    # Animaux nekosable
-    nekosables = Animal.objects.filter(inactif=False).filter(statut__in=(StatutAnimal.A_ADOPTER.name, StatutAnimal.ADOPTABLE.name)). \
-        filter(nekosable=True)
-    nb_nekosables = nekosables.count()
-    # dont prêts = tous soins effectues
-    nb_nekosables_prets = nekosables.filter(sterilise=OuiNonChoice.OUI.name).filter(vaccin_ok=OuiNonChoice.OUI.name).\
-    filter(~Q(fiv='NT')&~Q(felv='NT')).exclude(identification__exact='').count()
 
     #Taux de remplissage
     familles_occupees =  Famille.objects.filter(animal__isnull=False).distinct().count()

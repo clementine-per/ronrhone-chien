@@ -69,7 +69,7 @@ class Famille(models.Model):
     type_animal = models.CharField(
         max_length=30,
         verbose_name="Type d'animal accueilli",
-        default="CHAT",
+        default="CHIEN",
         choices=[(tag.name, tag.value) for tag in TypeChoice],
     )
     autres_animaux = models.CharField(max_length=1000, blank=True, verbose_name="Animaux de la FA ")
