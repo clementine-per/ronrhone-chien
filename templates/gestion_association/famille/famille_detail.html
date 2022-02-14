@@ -29,6 +29,8 @@
                 <strong> Niveau </strong> : {{famille.get_niveau_display}} <br>
                 <strong> Type d'animaux accueillis </strong> : {{famille.get_type_animal_display}} <br>
                 <strong> Commentaire </strong> : {{famille.commentaire}} <br>
+                <strong> Formation réalisée </strong> : {{famille.get_formation_faite_display}} <br>
+                <strong> Formation payée </strong> : {{famille.get_formation_payee_display}} <br>
                 <hr />
                 <strong> Animaux accueillis au total </strong> : {{famille.nb_animaux_historique |default:" 0 "}} <br>
                 <strong> Animaux accueillis en ce moment </strong> : {% for animal in famille.animal_set.all %}

@@ -79,6 +79,18 @@ class Famille(models.Model):
         blank=True,
         verbose_name=" Nombre maximum d'heures d'absence consécutives",
     )
+    formation_faite = models.CharField(
+        max_length=3,
+        default="NON",
+        verbose_name="Formation réalisée",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
+    formation_payee = models.CharField(
+        max_length=3,
+        default="NON",
+        verbose_name="Formation payée",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
 
     def get_nb_places_str(self):
         count = self.nb_places
@@ -104,6 +116,18 @@ class Famille(models.Model):
             for indispo in prochaines_indispos:
                 result += "\n"
                 result += str(indispo)
+        return mark_safe(result)
+
+    def get_formation_str(self):
+        result = ""
+        if self.formation_faite == OuiNonChoice.OUI.name:
+            result += "Réalisée"
+            if self.formation_payee == OuiNonChoice.OUI.name:
+                result += " et payée"
+            else:
+                result += " non payée"
+        else:
+            result += "Non réalisée"
         return mark_safe(result)
 
     def get_preference_str(self):

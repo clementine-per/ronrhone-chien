@@ -44,6 +44,14 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
+                        <strong> Bilan comportemental </strong> : {{animal.get_bilan_display}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Commentaire bilan </strong> :  {{ animal.commentaire_bilan }}<br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
                         <strong> Statut </strong> : {{animal.get_statut_display}} <br>
                     </div>
                     <div class="col-sm-6">
@@ -182,11 +190,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                        <strong> Test FELV </strong> : {{animal.get_felv_display}} <br>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong> Test FIV </strong> : {{animal.get_fiv_display}} <br>
+                    <div class="col">
+                        <strong> Vaccin rage </strong> : {{animal.get_vaccin_rage_display}} <br>
                     </div>
                 </div>
                 <div class="row">

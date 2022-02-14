@@ -9,12 +9,6 @@ from gestion_association.models.famille import Famille
 from gestion_association.models.person import Person
 
 
-class TestResultChoice(Enum):
-    NT = "Non testé"
-    POSITIVE = "Positif"
-    NEGATIVE = "Négatif"
-
-
 class SexeChoice(Enum):
     F = "Femelle"
     M = "Mâle"
@@ -22,8 +16,10 @@ class SexeChoice(Enum):
 
 
 class TypeVaccinChoice(Enum):
-    TC = "TC"
-    TCL = "TCL"
+    CHPL = "CHPL"
+    CHPL4 = "CHPL4"
+    CHPPIL = "CHPPiL"
+    CHPPIL4 = "CHPPiL4"
 
 
 class StatutAnimal(Enum):
@@ -135,17 +131,11 @@ class Animal(models.Model):
         max_length=150, verbose_name="Numéro d'identification", blank=True
     )
     lien_icad = models.URLField(max_length=150, verbose_name="Lien ICAD", blank=True)
-    fiv = models.CharField(
-        max_length=30,
-        verbose_name="FIV",
-        choices=[(tag.name, tag.value) for tag in TestResultChoice],
-        default="NT",
-    )
-    felv = models.CharField(
-        max_length=30,
-        verbose_name="FELV",
-        choices=[(tag.name, tag.value) for tag in TestResultChoice],
-        default="NT",
+    bilan = models.CharField(
+        max_length=3,
+        verbose_name="Bilan comportemental",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+        default="NON",
     )
     primo_vaccine = models.CharField(
         max_length=3,
@@ -159,10 +149,16 @@ class Animal(models.Model):
         default="NON",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
-    type_vaccin = models.CharField(
+    vaccin_rage = models.CharField(
         max_length=3,
+        verbose_name="Vaccin rage",
+        default="NON",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
+    type_vaccin = models.CharField(
+        max_length=10,
         verbose_name="Type de vaccin",
-        default="TC",
+        default="CHPL",
         choices=[(tag.name, tag.value) for tag in TypeVaccinChoice],
     )
     date_dernier_vaccin = models.DateField(
@@ -209,6 +205,7 @@ class Animal(models.Model):
                                            plus gérer cet animal dans l'application) ",
     )
     commentaire = models.CharField(max_length=1000, blank=True)
+    commentaire_bilan = models.CharField(max_length=150, blank=True)
     commentaire_sante = models.CharField(max_length=1000, blank=True)
     preference = models.OneToOneField(Preference, on_delete=models.PROTECT, blank=True, null=True)
     groupe = models.ForeignKey(AnimalGroup, on_delete=models.CASCADE, blank=True, null=True)
@@ -277,17 +274,12 @@ class Animal(models.Model):
         else:
             return "Non"
 
-    def get_tests_str(self):
-        result = ""
-        if self.fiv == TestResultChoice.POSITIVE.name:
-            result += "FIV+ "
-        if self.felv == TestResultChoice.POSITIVE.name:
-            result += "FELV+"
-        if self.fiv == TestResultChoice.NT.name or self.felv == TestResultChoice.NT.name:
-            return "A faire"
-        if self.fiv == TestResultChoice.NEGATIVE.name and self.felv == TestResultChoice.NEGATIVE.name:
-            return "OK"
-        return result
+    def get_bilan_str(self):
+        #Primo vacciné
+        bilan_str = self.get_bilan_display()
+        if self.commentaire_bilan:
+            bilan_str += " ( " + self.commentaire_bilan + " )"
+        return bilan_str
 
     def get_animaux_lies_str(self):
         result = ""

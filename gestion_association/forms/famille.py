@@ -67,7 +67,9 @@ class FamilleCreateForm(ModelForm):
             "longue_duree",
             "statut",
             "niveau",
-            "nb_heures_absence"
+            "nb_heures_absence",
+            "formation_faite",
+            "formation_payee"
         )
 
 
@@ -76,7 +78,8 @@ class FamilleMainUpdateForm(ModelForm):
     required_css_class = 'required'
     class Meta:
         model = Famille
-        fields = ("type_animal", "statut", "niveau", "commentaire")
+        fields = ("type_animal", "statut", "niveau", "commentaire","formation_faite",
+            "formation_payee")
 
 
 class FamilleAccueilUpdateForm(ModelForm):

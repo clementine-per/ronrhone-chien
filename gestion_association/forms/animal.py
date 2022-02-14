@@ -33,12 +33,6 @@ class AnimalSearchForm(Form):
         widget=Select(),
         required=False,
     )
-    fiv_felv = ChoiceField(
-        choices=BLANK_CHOICE_DASH + [(tag.name, tag.value) for tag in OuiNonChoice],
-        widget=Select(),
-        required=False,
-        label= "Testé FIV et FELV"
-    )
     date_naissance_min = DateField(
         label="Date de naissance entre le", required=False, widget=DateInput()
     )
@@ -76,14 +70,15 @@ class AnimalCreateForm(ModelForm):
             "date_arrivee",
             "commentaire",
             "statut",
+            "bilan",
+            "commentaire_bilan",
             "sterilise",
             "date_sterilisation",
             "type_vaccin",
             "primo_vaccine",
             "vaccin_ok",
+            "vaccin_rage",
             "date_prochain_vaccin",
-            "fiv",
-            "felv",
             "date_parasite",
             "date_vermifuge",
             "commentaire_sante",
@@ -133,6 +128,8 @@ class AnimalInfoUpdateForm(ModelForm):
             "date_arrivee",
             "commentaire",
             "statut",
+            "bilan",
+            "commentaire_bilan",
             "lien_icad",
             "ancien_proprio",
             "inactif",
@@ -156,9 +153,8 @@ class AnimalSanteUpdateForm(ModelForm):
             "type_vaccin",
             "primo_vaccine",
             "vaccin_ok",
+            "vaccin_rage",
             "date_prochain_vaccin",
-            "fiv",
-            "felv",
             "date_parasite",
             "date_vermifuge",
             "commentaire_sante"

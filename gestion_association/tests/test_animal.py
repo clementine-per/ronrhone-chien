@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 
 from gestion_association.models import TypeChoice, OuiNonChoice
-from gestion_association.models.animal import Animal, SexeChoice, Preference, StatutAnimal, TestResultChoice
+from gestion_association.models.animal import Animal, SexeChoice, Preference, StatutAnimal
 from gestion_association.models.famille import Famille
 from gestion_association.models.person import Person
 
@@ -25,7 +25,7 @@ def create_animal_simple(nom):
     return animal
 
 def create_animal_complexe(nom, sexe, type, sterilise, statut, identification, date_naissance,
-                           date_prochain_vaccin, fa, fiv_felv):
+                           date_prochain_vaccin, fa):
     # Création d'un animal
     preference = Preference.objects.create()
     famille = None
@@ -54,8 +54,6 @@ def create_animal_complexe(nom, sexe, type, sterilise, statut, identification, d
         identification=identification,
         date_naissance=date_naissance,
         date_prochain_vaccin=date_prochain_vaccin,
-        fiv=fiv_felv,
-        felv=fiv_felv
     )
     return animal
 
@@ -66,11 +64,9 @@ class AnimalListTests(TestCase):
         self.today = timezone.now().date()
         interval_10 = self.today - timedelta(days=10)
         create_animal_complexe("Cerise", SexeChoice.F.name, TypeChoice.CHAT.name, OuiNonChoice.OUI.name,
-                               StatutAnimal.SOCIA.name,"id5526",interval_10,interval_10,True,
-                               TestResultChoice.POSITIVE.name)
+                               StatutAnimal.SOCIA.name,"id5526",interval_10,interval_10,True)
         create_animal_complexe("Twix", SexeChoice.M.name, TypeChoice.CHIEN.name, OuiNonChoice.NON.name,
-                               StatutAnimal.ADOPTABLE.name, "id8826", self.today, self.today, False,
-                               TestResultChoice.NT.name)
+                               StatutAnimal.ADOPTABLE.name, "id8826", self.today, self.today, False)
         self.client = Client()
         self.user = User.objects.create_user("temporary", "temporary@gmail.com", "temporary")
         self.client.login(username="temporary", password="temporary")
@@ -137,11 +133,6 @@ class AnimalListTests(TestCase):
         self.assertContains(response, "Cerise")
         self.assertNotContains(response, "Twix")
 
-        # Test filtre sur fa
-        response = self.client.get("/ronrhone/animals/?fiv_felv=OUI")
-        self.assertContains(response, "Cerise")
-        self.assertNotContains(response, "Twix")
-
 class AnimalCreateUpdateTests(TestCase):
     def setUp(self):
         self.client = Client()
@@ -150,9 +141,8 @@ class AnimalCreateUpdateTests(TestCase):
 
     def test_create_animal(self):
         self.client.post('/ronrhone/animals/create', {'nom': 'Violette', 'sexe': SexeChoice.F.name,
-                                                      'type': TypeChoice.CHAT.name, 'circonstances' : 'Abandon', 'statut' : StatutAnimal.SOCIA.name,
+                                                      'type': TypeChoice.CHIEN.name, 'circonstances' : 'Abandon', 'statut' : StatutAnimal.SOCIA.name,
                                                       'sterilise' : OuiNonChoice.OUI.name, 'primo_vaccine' : OuiNonChoice.OUI.name, 'vaccin_ok' : OuiNonChoice.OUI.name,
-                                                      'fiv' : TestResultChoice.NT.name, 'felv': TestResultChoice.NT.name,
                                                       'sociabilisation' : OuiNonChoice.NON.name, 'exterieur' : OuiNonChoice.NON.name, 'quarantaine' : OuiNonChoice.NON.name,
                                                       'biberonnage' : OuiNonChoice.NON.name})
         response = self.client.get(reverse_lazy("animals"))

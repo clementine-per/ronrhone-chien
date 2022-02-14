@@ -54,7 +54,6 @@ def search_animal(request):
         date_prochain_vaccin_max = request.GET.get("date_prochain_vaccin_max", "")
         date_vermifuge_min = request.GET.get("date_vermifuge_min", "")
         date_vermifuge_max = request.GET.get("date_vermifuge_max", "")
-        fiv_felv_form = request.GET.get("fiv_felv", "")
         # Pas dans le formulaire uniquement critère d'url provenant du tableau de bord
         vaccin_ok_url = request.GET.get("vaccin_ok", "")
         identifie_url = request.GET.get("identifie", "")
@@ -69,7 +68,7 @@ def search_animal(request):
             interval_5_months_ago = today - relativedelta(months=5)
             animals = animals.filter(statut__in=statuts_association) \
                 .filter(Q(Q(sterilise=OuiNonChoice.NON.name)&Q(date_naissance__lte=interval_5_months_ago))| Q(vaccin_ok=OuiNonChoice.NON.name) | \
-                        Q(fiv='NT') | Q(felv='NT') | Q(identification__exact=''))
+                        Q(identification__exact=''))
         if nom_form:
             animals = animals.filter(nom__icontains=nom_form)
             form.fields["nom"].initial = nom_form
@@ -103,12 +102,6 @@ def search_animal(request):
         if date_prochain_vaccin_max:
             form.fields["date_prochain_vaccin_max"].initial = date_prochain_vaccin_max
             animals = animals.filter(date_prochain_vaccin__lte=parse_date(date_prochain_vaccin_max))
-        if fiv_felv_form:
-            form.fields["fiv_felv"].initial = fiv_felv_form
-            if fiv_felv_form == OuiNonChoice.OUI.name:
-                animals = animals.exclude(Q(fiv='NT')|Q(felv='NT'))
-            if fiv_felv_form == OuiNonChoice.NON.name:
-                animals = animals.filter(Q(fiv='NT')|Q(felv='NT'))
 
     # Pagination : 20 éléments par page
     paginator = Paginator(animals.order_by("-date_mise_a_jour"), 20)

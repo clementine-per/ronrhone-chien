@@ -72,7 +72,7 @@ def index(request):
     # Animaux avec soin manquant
     soins_manquants = Animal.objects.filter(inactif=False).filter(statut__in=statuts_association)\
         .filter(Q(Q(sterilise=OuiNonChoice.NON.name)&Q(date_naissance__lte=interval_5_months_ago))| Q(vaccin_ok=OuiNonChoice.NON.name)|\
-    Q(fiv='NT')| Q(felv='NT')|Q(identification__exact='')).count()
+    Q(identification__exact='')).count()
     # Bon de stérilisation à envoyer
     bon_a_envoyer = BonSterilisation.objects.filter(envoye=OuiNonChoice.NON.name).count()
     # Bon de stérilisation arrivant à expiation (10 jours)
