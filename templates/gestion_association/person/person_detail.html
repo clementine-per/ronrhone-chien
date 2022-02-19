@@ -91,6 +91,17 @@
 
                 </div>
                 {% endif %}
+                {% if person.is_educ %}
+                <div class="role benevole mb-3">
+                    Educateur
+                    {% if person.commentaire_educ %}
+                    : {{person.commentaire_educ}}
+                    {% endif %}
+                    <br>
+                    Tarif : {{person.tarif_horaire|default:"-"}}
+
+                </div>
+                {% endif %}
                 {% if person.is_adoptante %}
                 <div class="role adoptant mb-3">Adoptant :
                     {% for animal in person.animal_set.all %}
@@ -114,6 +125,11 @@
                 <a href= "{% url 'benevole_person' person.id %}"  class="btn btn-outline-info btn-block ">Modifier rôle bénévole</a>
                 {% else %}
                 <a href= "{% url 'benevole_person' person.id %}"  class="btn btn-outline-info btn-block ">Déclarer bénévole</a>
+                {% endif %}
+                {% if person.is_educ %}
+                <a href= "{% url 'educ_person' person.id %}"  class="btn btn-outline-info btn-block ">Modifier rôle éducateur</a>
+                {% else %}
+                <a href= "{% url 'educ_person' person.id %}"  class="btn btn-outline-info btn-block ">Déclarer éducateur</a>
                 {% endif %}
                 {% if not person.is_famille or not person.famille %}
                 <a href= "{% url 'create_famille' person.id %}" class="btn btn-outline-info btn-block ">Déclarer famille d'accueil</a>
@@ -154,6 +170,36 @@
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+</div>{% if person.is_educ %}
+<div class="row p-2">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                Educateur : liste des chiens
+            </div>
+            <div class="table-responsive-sm p-4">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for animal in person.chiens.all %}
+                        <tr class="table-info">
+                            <td><a href = "{% url 'detail_animal' animal.id %}">{{animal.nom}}</a></td>
+                            <td>{{animal.get_statut_display}}</td>
 
                         </tr>
                         {% endfor %}

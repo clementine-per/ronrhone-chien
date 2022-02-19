@@ -160,8 +160,8 @@ class Famille(models.Model):
         if self.preference.sociabilisation and self.preference.sociabilisation == "OUI":
             result += "OK sociabilisation"
             result += "\n"
-        if self.preference.quarantaine and self.preference.quarantaine == "OUI":
-            result += "OK quarantaine"
+        if self.preference.rehabilitation and self.preference.rehabilitation == "OUI":
+            result += "OK réhabilitation"
             result += "\n"
         if self.preference.biberonnage and self.preference.biberonnage == "OUI":
             result += "OK biberonnage"

@@ -84,6 +84,7 @@ class AnimalCreateForm(ModelForm):
             "commentaire_sante",
             "lien_icad",
             "ancien_proprio",
+            "educateur",
         )
 
     def __init__(self, *args, **kwargs):
@@ -95,6 +96,8 @@ class AnimalCreateForm(ModelForm):
         self.fields['date_parasite'].widget.attrs['class'] = 'datePicker'
         self.fields['date_vermifuge'].widget.attrs['class'] = 'datePicker'
         self.fields['ancien_proprio'].queryset = Person.objects.filter(inactif=False).order_by('nom')
+        self.fields['educateur'].queryset = \
+            Person.objects.filter(inactif=False).filter(is_educ=True).order_by('nom')
 
 
 class AnimalOtherInfosForm(ModelForm):
@@ -131,6 +134,7 @@ class AnimalInfoUpdateForm(ModelForm):
             "bilan",
             "commentaire_bilan",
             "lien_icad",
+            "educateur",
             "ancien_proprio",
             "inactif",
         )
@@ -140,6 +144,8 @@ class AnimalInfoUpdateForm(ModelForm):
         self.fields['date_naissance'].widget.attrs['class'] = 'datePicker'
         self.fields['date_arrivee'].widget.attrs['class'] = 'datePicker'
         self.fields['ancien_proprio'].queryset = Person.objects.filter(inactif=False).order_by('nom')
+        self.fields['educateur'].queryset = \
+            Person.objects.filter(inactif=False).filter(is_educ=True).order_by('nom')
 
 
 class AnimalSanteUpdateForm(ModelForm):

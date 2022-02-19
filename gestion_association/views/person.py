@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 
-from gestion_association.forms.person import BenevoleForm, PersonForm, PersonSearchForm, AdhesionForm
+from gestion_association.forms.person import BenevoleForm, PersonForm, PersonSearchForm, AdhesionForm, EducateurForm
 from gestion_association.models.person import Person, Adhesion
 
 
@@ -54,6 +54,26 @@ class BenevolePerson(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(BenevolePerson, self).get_context_data(**kwargs)
         context['title'] = "Bénévole  " + str(self.object)
+        return context
+
+
+class EducPerson(LoginRequiredMixin, UpdateView):
+    model = Person
+    form_class = EducateurForm
+    template_name = "gestion_association/person/person_educ_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("detail_person", kwargs={"pk": self.object.id})
+
+    def form_valid(self, form):
+        redirect_url = super(EducPerson, self).form_valid(form)
+        self.object.is_educ = True
+        self.object.save()
+        return redirect_url
+
+    def get_context_data(self, **kwargs):
+        context = super(EducPerson, self).get_context_data(**kwargs)
+        context['title'] = "Educateur  " + str(self.object)
         return context
 
 
@@ -112,6 +132,8 @@ def person_list(request):
                 person_list = person_list.filter(is_adoptante=True)
             if type_person_form == "ADHERENT":
                 person_list = person_list.filter(is_adherent=True)
+            if type_person_form == "EDUC":
+                person_list = person_list.filter(is_educ =True)
             if type_person_form == "PARRAIN":
                 person_list = person_list.filter(is_parrain=True)
             if type_person_form == "ANCIEN_PROPRIO":

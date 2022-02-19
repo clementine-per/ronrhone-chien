@@ -4,3 +4,4 @@ ronrhone/Scripts/*
 ronrhone/Lib/*
 *.cfg
 .idea
+migrations

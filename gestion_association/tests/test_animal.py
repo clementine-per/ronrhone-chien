@@ -143,7 +143,7 @@ class AnimalCreateUpdateTests(TestCase):
         self.client.post('/ronrhone/animals/create', {'nom': 'Violette', 'sexe': SexeChoice.F.name,
                                                       'type': TypeChoice.CHIEN.name, 'circonstances' : 'Abandon', 'statut' : StatutAnimal.SOCIA.name,
                                                       'sterilise' : OuiNonChoice.OUI.name, 'primo_vaccine' : OuiNonChoice.OUI.name, 'vaccin_ok' : OuiNonChoice.OUI.name,
-                                                      'sociabilisation' : OuiNonChoice.NON.name, 'exterieur' : OuiNonChoice.NON.name, 'quarantaine' : OuiNonChoice.NON.name,
+                                                      'sociabilisation' : OuiNonChoice.NON.name, 'exterieur' : OuiNonChoice.NON.name, 'rehabilitation' : OuiNonChoice.NON.name,
                                                       'biberonnage' : OuiNonChoice.NON.name})
         response = self.client.get(reverse_lazy("animals"))
         self.assertContains(response, "Violette")

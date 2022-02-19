@@ -133,7 +133,7 @@ def create_animal(request):
     else:
         animal_form = AnimalCreateForm()
         preference_form = PreferenceForm()
-        preference_form.fields['quarantaine'].initial = OuiNonChoice.OUI.value
+        preference_form.fields['rehabilitation'].initial = OuiNonChoice.OUI.value
     return render(request, "gestion_association/animal/animal_create_form.html", locals())
 
 

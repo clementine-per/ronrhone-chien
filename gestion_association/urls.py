@@ -46,6 +46,11 @@ urlpatterns = [
         name="benevole_person",
     ),
     path(
+        "persons/update/educateur/<int:pk>/",
+        person.EducPerson.as_view(),
+        name="educ_person",
+    ),
+    path(
         "persons/cancel/benevole/<int:pk>/",
         person.person_benevole_cancel,
         name="cancel_benevole",

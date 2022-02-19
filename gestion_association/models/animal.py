@@ -29,7 +29,7 @@ class StatutAnimal(Enum):
     SOCIA = "Sociabilisation"
     ADOPTE = "Adopté"
     ADOPTE_DEFINITIF = "Adopté définitivement"
-    QUARANTAINE = "Quarantaine"
+    REHABILITATION = "Réhabilitation"
     SOIN = "En soin"
     SEVRAGE = "En sevrage"
     PERDU = "Perdu"
@@ -45,7 +45,7 @@ statuts_association = [
     StatutAnimal.ADOPTABLE.name,
     StatutAnimal.PEC.name,
     StatutAnimal.SOCIA.name,
-    StatutAnimal.QUARANTAINE.name,
+    StatutAnimal.REHABILITATION.name,
     StatutAnimal.SOIN.name,
     StatutAnimal.SEVRAGE.name,
 ]
@@ -75,10 +75,10 @@ class Preference(models.Model):
         verbose_name="Extérieur",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
-    quarantaine = models.CharField(
+    rehabilitation = models.CharField(
         max_length=3,
         default="NON",
-        verbose_name="Quarantaine",
+        verbose_name="Réhabilitation",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
     biberonnage = models.CharField(
@@ -90,8 +90,8 @@ class Preference(models.Model):
 
     def __str__(self):
         preferences = "Nécéssités : \n"
-        if self.quarantaine == OuiNonChoice.OUI.name:
-            preferences += "Quarantaine \n"
+        if self.rehabilitation == OuiNonChoice.OUI.name:
+            preferences += "Réhabilitation \n"
         if self.biberonnage == OuiNonChoice.OUI.name:
             preferences += "Biberonnage \n"
         if self.exterieur == OuiNonChoice.OUI.name:
@@ -178,7 +178,7 @@ class Animal(models.Model):
     )
     statut = models.CharField(
         max_length=30,
-        default="QUARANTAINE",
+        default="REHABILITATION",
         choices=[(tag.name, tag.value) for tag in StatutAnimal],
     )
     date_mise_adoption = models.DateField(
@@ -190,6 +190,14 @@ class Animal(models.Model):
         on_delete=models.PROTECT,
         null=True,
         blank=True,
+    )
+    educateur = models.ForeignKey(
+        Person,
+        verbose_name="Educateur",
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="chiens",
     )
     ancien_proprio = models.ForeignKey(
         Person,
@@ -233,8 +241,8 @@ class Animal(models.Model):
                 else:
                     self.tranche_age = TrancheAge.SENIOR.name
         # Mise à jour des préférences en fonction du statut
-        if self.statut == StatutAnimal.QUARANTAINE.name:
-            self.preference.quarantaine = OuiNonChoice.OUI.name
+        if self.statut == StatutAnimal.REHABILITATION.name:
+            self.preference.rehabilitation = OuiNonChoice.OUI.name
             self.preference.save()
         if self.statut == StatutAnimal.SOCIA.name:
             self.preference.sociabilisation = OuiNonChoice.OUI.name

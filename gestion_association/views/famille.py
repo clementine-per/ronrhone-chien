@@ -70,7 +70,7 @@ def famille_list(request):
         form = FamilleSearchForm()
         nom_personne_form = request.GET.get("nom_personne", "")
         places_dispos_form = request.GET.get("places_dispos", "")
-        quarantaine_form = request.GET.get("quarantaine", "")
+        rehabilitation_form = request.GET.get("rehabilitation", "")
         exterieur_form = request.GET.get("exterieur", "")
         statut_form = request.GET.get("statut", "")
         vide_form = request.GET.get("vide", "")
@@ -96,9 +96,9 @@ def famille_list(request):
                 famille_list = famille_list.filter(animal__isnull=False)
             elif vide_form == 'OUI':
                 famille_list = famille_list.filter(animal__isnull=True)
-        if quarantaine_form:
-            famille_list = famille_list.filter(preference__quarantaine=quarantaine_form)
-            form.fields["quarantaine"].initial = quarantaine_form
+        if rehabilitation_form:
+            famille_list = famille_list.filter(preference__rehabilitation=rehabilitation_form)
+            form.fields["rehabilitation"].initial = rehabilitation_form
         if exterieur_form:
             famille_list = famille_list.filter(preference__exterieur=exterieur_form)
             form.fields["exterieur"].initial = exterieur_form

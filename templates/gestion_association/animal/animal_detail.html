@@ -62,7 +62,13 @@
                     <div class="col-sm-6">
                         <strong> Lien ICAD </strong> : {% if animal.lien_icad %}<a target="_blank" href= "{{animal.lien_icad}}">
                         {{animal.lien_icad}}
-                    </a>{% endif %} <br>
+                    </a>{% endif %}
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Educateur </strong> : {% if animal.educateur %}
+                        <a href= "{% url 'detail_person' animal.educateur.id %}">
+                        {{animal.educateur}}
+                    </a>{% endif %}
                     </div>
 
                 </div>
@@ -241,7 +247,7 @@
                         <strong> A sociabiliser </strong> : {{animal.preference.get_sociabilisation_display}} <br>
                     </div>
                     <div class="col-sm-6">
-                        <strong> Quarantaine </strong> : {{animal.preference.get_quarantaine_display}} <br>
+                        <strong> Réhabilitation </strong> : {{animal.preference.get_rehabilitation_display}} <br>
                     </div>
                 </div>
                 <div class="row">

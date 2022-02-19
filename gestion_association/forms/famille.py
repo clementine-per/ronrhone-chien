@@ -33,7 +33,7 @@ class FamilleSearchForm(Form):
         required=False,
     )
     places_dispos = IntegerField(required=False, label="Nombre de places disponibles minimum")
-    quarantaine = ChoiceField(
+    rehabilitation = ChoiceField(
         choices=BLANK_CHOICE_DASH + [(tag.name, tag.value) for tag in OuiNonChoice],
         widget=Select(),
         required=False,

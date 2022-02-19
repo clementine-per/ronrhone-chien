@@ -12,6 +12,7 @@ class TypePersonChoice(Enum):
     BENEVOLE = "Bénévole"
     ADHERENT = "Adhérent"
     PARRAIN = "Parrain"
+    EDUC = "Educateur"
     ANCIEN_PROPRIO = "Ancien propriétaire"
 
 
@@ -41,10 +42,23 @@ class Person(models.Model):
     )
     is_famille = models.BooleanField(default=False, verbose_name="Famille d'accueil")
     is_adoptante = models.BooleanField(default=False, verbose_name="Adoptante")
+    is_educ = models.BooleanField(default=False, verbose_name="Educateur")
     is_benevole = models.BooleanField(default=False, verbose_name="Bénévole")
     is_parrain = models.BooleanField(default=False, verbose_name="Parrainage")
     is_adherent = models.BooleanField(default=False, verbose_name="Adhérent(e)")
     is_ancien_proprio = models.BooleanField(default=False, verbose_name="Ancien propriétaire")
+    tarif_horaire = models.DecimalField(
+        verbose_name="Tarif horaire",
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    commentaire_educ = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name="Détails de l'éducateur : frais kilométriques, zone d'intervention ...",
+    )
     commentaire_benevole = models.CharField(
         max_length=1000,
         blank=True,

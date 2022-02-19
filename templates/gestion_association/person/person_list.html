@@ -64,6 +64,9 @@
                 {% if person.is_adherent %}
                 <div class="role benevole">Adhérent</div>
                 {% endif %}
+                {% if person.is_educ %}
+                <div class="role benevole">Educateur</div>
+                {% endif %}
                 {% if person.is_parrain %}
                 <div class="role benevole">Parrainage</div>
                 {% endif %}
