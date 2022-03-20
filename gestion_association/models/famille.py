@@ -73,7 +73,6 @@ class Famille(models.Model):
         choices=[(tag.name, tag.value) for tag in TypeChoice],
     )
     autres_animaux = models.CharField(max_length=1000, blank=True, verbose_name="Animaux de la FA ")
-    enfants = models.CharField(max_length=100, blank=True, verbose_name="Enfants de moins de 12 ans")
     nb_heures_absence = models.IntegerField(
         null=True,
         blank=True,
@@ -132,9 +131,7 @@ class Famille(models.Model):
 
     def get_preference_str(self):
         result = ""
-        result += "Famille pour "
-        result += self.get_type_animal_display()
-        result += " de niveau "
+        result += "Famille de niveau "
         result += self.get_niveau_display()
         result += "\n"
         if self.detail_places:
@@ -156,9 +153,6 @@ class Famille(models.Model):
             result += "\n"
         if self.longue_duree and self.longue_duree == "OUI":
             result += "OK longues durées"
-            result += "\n"
-        if self.preference.sociabilisation and self.preference.sociabilisation == "OUI":
-            result += "OK sociabilisation"
             result += "\n"
         if self.preference.rehabilitation and self.preference.rehabilitation == "OUI":
             result += "OK réhabilitation"

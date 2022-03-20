@@ -91,7 +91,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <strong> Sociabilistaion </strong> : {{famille.preference.get_sociabilisation_display}} <br>
+                        <strong> Ville </strong> : {{famille.preference.get_ville_display}} <br>
                     </div>
                     <div class="col">
                         <strong> Nombre maximum d'heures d'absence consécutives</strong> : {{famille.nb_heures_absence|default:""}} <br>
@@ -103,6 +103,22 @@
                     </div>
                     <div class="col">
                         <strong> Longue durée </strong> : {{famille.get_longue_duree_display}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <strong> Enfant(s) de moins de 12 ans </strong> : {{famille.preference.get_enfants_display}} <br>
+                    </div>
+                    <div class="col">
+                        <strong> Présence de chats </strong> : {{famille.preference.get_chats_display}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <strong> Présence d'autres chiens </strong> : {{famille.preference.get_congeneres_display}} <br>
+                    </div>
+                    <div class="col">
+                        <strong> Vie en ville </strong> : {{famille.preference.get_ville_display}} <br>
                     </div>
                 </div>
             </div>

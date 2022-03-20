@@ -281,7 +281,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <strong> A sociabiliser </strong> : {{animal.preference.get_sociabilisation_display}} <br>
+                        <strong> Vie en ville </strong> : {{animal.preference.get_ville_display}} <br>
                     </div>
                     <div class="col-sm-6">
                         <strong> Réhabilitation </strong> : {{animal.preference.get_rehabilitation_display}} <br>
@@ -289,16 +289,31 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <strong> Tranche d'âge </strong> : {{animal.get_tranche_age_display}} <br>
+                        <strong> Tranche d'âge </strong> : {{animal.preference.get_tranche_age_display}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> OK Congénères </strong> : {{animal.preference.get_congeneres_display}} <br>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col">
+                        <strong> OK Chats </strong> : {{animal.preference.get_chats_display}} <br>
+                    </div>
+                    <div class="col">
+                        <strong> OK Enfants </strong> : {{animal.preference.get_enfants_display}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <strong> Nombre maximum d'heures seul(e)
+                        </strong> : {{animal.preference.nb_heures_absence|default:"Non renseigné"}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <strong> Animaux liés </strong> : {% for liaison in animal.get_animaux_lies %} <a href= "{% url 'detail_animal' liaison.id %}">{{liaison.nom}}</a>, {% endfor %} <br>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col">
                         <strong> Commentaire animaux liés </strong> : {{animal.commentaire_animaux_lies}} <br>
                     </div>
                 </div>

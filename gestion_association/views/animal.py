@@ -12,7 +12,7 @@ from rest_framework import viewsets
 from django.utils import timezone
 
 
-from gestion_association.forms import PreferenceForm
+from gestion_association.forms import PreferenceAnimalForm
 from gestion_association.forms.animal import (
     AnimalCreateForm,
     AnimalInfoUpdateForm,
@@ -122,7 +122,7 @@ def create_animal(request):
     title = "Créer un animal"
     if request.method == "POST":
         animal_form = AnimalCreateForm(data=request.POST)
-        preference_form = PreferenceForm(data=request.POST)
+        preference_form = PreferenceAnimalForm(data=request.POST)
         if animal_form.is_valid() and preference_form.is_valid():
             # Rattachement manuel de l'animal et des préférences
             preference = preference_form.save()
@@ -132,7 +132,7 @@ def create_animal(request):
             return redirect("detail_animal", pk=animal.id)
     else:
         animal_form = AnimalCreateForm()
-        preference_form = PreferenceForm()
+        preference_form = PreferenceAnimalForm()
         preference_form.fields['rehabilitation'].initial = OuiNonChoice.OUI.value
     return render(request, "gestion_association/animal/animal_create_form.html", locals())
 
@@ -142,7 +142,7 @@ def update_preference(request, pk):
     animal = Animal.objects.get(id=pk)
     title = "Modification des préférences de " + animal.nom
     if request.method == "POST":
-        preference_form = PreferenceForm(data=request.POST, instance=animal.preference)
+        preference_form = PreferenceAnimalForm(data=request.POST, instance=animal.preference)
         animal_other_form = AnimalOtherInfosForm(data=request.POST, instance=animal)
         animal_group_form = AnimalSelectForm(data=request.POST)
         if preference_form.is_valid() and animal_other_form.is_valid() and animal_group_form.is_valid():
@@ -172,7 +172,7 @@ def update_preference(request, pk):
 
             return redirect("detail_animal", pk=pk)
     else:
-        preference_form = PreferenceForm(instance=animal.preference)
+        preference_form = PreferenceAnimalForm(instance=animal.preference)
         animal_other_form = AnimalOtherInfosForm(instance=animal)
         animal_group_form = AnimalSelectForm()
         animal_group_form.fields['animaux'].queryset = Animal.objects.filter\

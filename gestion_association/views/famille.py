@@ -14,7 +14,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import UpdateView, View
 
-from gestion_association.forms import PreferenceForm
+from gestion_association.forms import PreferenceFaForm
 from gestion_association.forms.animal import AnimalSelectForFaForm
 from gestion_association.forms.famille import (
     FamilleAccueilUpdateForm,
@@ -35,7 +35,7 @@ def create_famille(request, pk):
     personne = Person.objects.get(id=pk)
     if request.method == "POST":
         famille_form = FamilleCreateForm(data=request.POST)
-        preference_form = PreferenceForm(data=request.POST)
+        preference_form = PreferenceFaForm(data=request.POST)
         if famille_form.is_valid() and preference_form.is_valid():
             # Rattachement manuel de la personne et des préférences
             preference = preference_form.save()
@@ -49,7 +49,7 @@ def create_famille(request, pk):
             return redirect("detail_famille", pk=famille.id)
     else:
         famille_form = FamilleCreateForm()
-        preference_form = PreferenceForm()
+        preference_form = PreferenceFaForm()
     return render(request, "gestion_association/famille/famille_create_form.html", locals())
 
 
@@ -213,14 +213,14 @@ def update_accueil_famille(request, pk):
     famille = Famille.objects.get(id=pk)
     if request.method == "POST":
         famille_form = FamilleAccueilUpdateForm(data=request.POST, instance=famille)
-        preference_form = PreferenceForm(data=request.POST, instance=famille.preference)
+        preference_form = PreferenceFaForm(data=request.POST, instance=famille.preference)
         if famille_form.is_valid() and preference_form.is_valid():
             preference = preference_form.save()
             famille = famille_form.save()
             return redirect("detail_famille", pk=famille.id)
     else:
         famille_form = FamilleAccueilUpdateForm(instance=famille)
-        preference_form = PreferenceForm(instance=famille.preference)
+        preference_form = PreferenceFaForm(instance=famille.preference)
     return render(request, "gestion_association/famille/famille_accueil_form.html", locals())
 
 

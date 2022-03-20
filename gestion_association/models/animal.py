@@ -15,6 +15,12 @@ class SexeChoice(Enum):
     NI = "Non identifié"
 
 
+class OuiNonNullChoice(Enum):
+    OUI = "Oui"
+    NON = "Non"
+    IND = "Indéterminé"
+
+
 class TypeVaccinChoice(Enum):
     CHPL = "CHPL"
     CHPL4 = "CHPL4"
@@ -26,7 +32,6 @@ class StatutAnimal(Enum):
     A_ADOPTER = "A l'adoption"
     ADOPTABLE = "Adoptable"
     ADOPTION = "En cours d'adoption"
-    SOCIA = "Sociabilisation"
     ADOPTE = "Adopté"
     ADOPTE_DEFINITIF = "Adopté définitivement"
     REHABILITATION = "Réhabilitation"
@@ -44,7 +49,6 @@ statuts_association = [
     StatutAnimal.ADOPTION.name,
     StatutAnimal.ADOPTABLE.name,
     StatutAnimal.PEC.name,
-    StatutAnimal.SOCIA.name,
     StatutAnimal.REHABILITATION.name,
     StatutAnimal.SOIN.name,
     StatutAnimal.SEVRAGE.name,
@@ -63,12 +67,6 @@ class TrancheAge(Enum):
 
 
 class Preference(models.Model):
-    sociabilisation = models.CharField(
-        max_length=3,
-        default="NON",
-        verbose_name="Sociabilisation",
-        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
-    )
     exterieur = models.CharField(
         max_length=3,
         default="NON",
@@ -87,6 +85,35 @@ class Preference(models.Model):
         verbose_name="Biberonnage",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
+    ville = models.CharField(
+        max_length=3,
+        default="IND",
+        verbose_name="Vie en ville",
+        choices=[(tag.name, tag.value) for tag in OuiNonNullChoice],
+    )
+    congeneres = models.CharField(
+        max_length=3,
+        default="IND",
+        verbose_name="Ok congénères",
+        choices=[(tag.name, tag.value) for tag in OuiNonNullChoice],
+    )
+    chats = models.CharField(
+        max_length=3,
+        default="IND",
+        verbose_name="Ok chats",
+        choices=[(tag.name, tag.value) for tag in OuiNonNullChoice],
+    )
+    enfants = models.CharField(
+        max_length=3,
+        default="IND",
+        verbose_name="Ok enfants",
+        choices=[(tag.name, tag.value) for tag in OuiNonNullChoice],
+    )
+    nb_heures_absence = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=" Nombre maximum d'heures d'absence consécutives",
+    )
 
     def __str__(self):
         preferences = "Nécéssités : \n"
@@ -96,8 +123,18 @@ class Preference(models.Model):
             preferences += "Biberonnage \n"
         if self.exterieur == OuiNonChoice.OUI.name:
             preferences += "Extérieur \n"
-        if self.sociabilisation == OuiNonChoice.OUI.name:
-            preferences += "Sociabilisation \n"
+        if self.ville == OuiNonChoice.OUI.name:
+            preferences += "Vie en ville ok \n"
+        elif self.ville == OuiNonChoice.NON.name:
+            preferences += "Pas de vie en ville \n"
+        if self.congeneres == OuiNonChoice.OUI.name:
+            preferences += "Ok congénères \n"
+        elif self.congeneres == OuiNonChoice.NON.name:
+            preferences += "Pas ok congénères \n"
+        if self.chats == OuiNonChoice.OUI.name:
+            preferences += "Ok chats \n"
+        if self.enfants == OuiNonChoice.OUI.name:
+            preferences += "Ok enfants \n"
 
         return preferences
 
@@ -243,9 +280,6 @@ class Animal(models.Model):
         # Mise à jour des préférences en fonction du statut
         if self.statut == StatutAnimal.REHABILITATION.name:
             self.preference.rehabilitation = OuiNonChoice.OUI.name
-            self.preference.save()
-        if self.statut == StatutAnimal.SOCIA.name:
-            self.preference.sociabilisation = OuiNonChoice.OUI.name
             self.preference.save()
         if self.ancien_proprio:
             self.ancien_proprio.is_ancien_proprio = True

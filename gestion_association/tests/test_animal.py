@@ -64,7 +64,7 @@ class AnimalListTests(TestCase):
         self.today = timezone.now().date()
         interval_10 = self.today - timedelta(days=10)
         create_animal_complexe("Cerise", SexeChoice.F.name, TypeChoice.CHAT.name, OuiNonChoice.OUI.name,
-                               StatutAnimal.SOCIA.name,"id5526",interval_10,interval_10,True)
+                               "id5526",interval_10,interval_10,True)
         create_animal_complexe("Twix", SexeChoice.M.name, TypeChoice.CHIEN.name, OuiNonChoice.NON.name,
                                StatutAnimal.ADOPTABLE.name, "id8826", self.today, self.today, False)
         self.client = Client()
@@ -97,10 +97,10 @@ class AnimalListTests(TestCase):
         self.assertNotContains(response, "Twix")
 
         # Test filtre sur statuts
-        response = self.client.get("/ronrhone/animals/?statuts=SOCIA")
+        response = self.client.get("/ronrhone/animals")
         self.assertContains(response, "Cerise")
         self.assertNotContains(response, "Twix")
-        response = self.client.get("/ronrhone/animals/?statuts=SOCIA&statuts=ADOPTABLE")
+        response = self.client.get("/ronrhone/animals/?statuts=ADOPTABLE")
         self.assertContains(response, "Cerise")
         self.assertContains(response, "Twix")
 
@@ -141,9 +141,9 @@ class AnimalCreateUpdateTests(TestCase):
 
     def test_create_animal(self):
         self.client.post('/ronrhone/animals/create', {'nom': 'Violette', 'sexe': SexeChoice.F.name,
-                                                      'type': TypeChoice.CHIEN.name, 'circonstances' : 'Abandon', 'statut' : StatutAnimal.SOCIA.name,
+                                                      'type': TypeChoice.CHIEN.name, 'circonstances' : 'Abandon',
                                                       'sterilise' : OuiNonChoice.OUI.name, 'primo_vaccine' : OuiNonChoice.OUI.name, 'vaccin_ok' : OuiNonChoice.OUI.name,
-                                                      'sociabilisation' : OuiNonChoice.NON.name, 'exterieur' : OuiNonChoice.NON.name, 'rehabilitation' : OuiNonChoice.NON.name,
+                                                       'exterieur' : OuiNonChoice.NON.name, 'rehabilitation' : OuiNonChoice.NON.name,
                                                       'biberonnage' : OuiNonChoice.NON.name})
         response = self.client.get(reverse_lazy("animals"))
         self.assertContains(response, "Violette")
