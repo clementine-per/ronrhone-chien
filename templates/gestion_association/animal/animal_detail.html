@@ -220,6 +220,43 @@
                     </div>
                 </div>
 
+                {% if animal.visites.all.count >= 1 %}
+                <div class="table-responsive-sm p-4">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Type de visite</th>
+                                <th scope="col">Véterinaire</th>
+                                <th>Montant</th>
+                                <th scope="col">Commentaire</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for vis in animal.visites.all %}
+                            <tr class="table-info">
+                                <td>{{vis.date|date:"d/m/Y"}}</td>
+                                <td>{{vis.get_type_visite_display}}</td>
+                                <td>{{vis.veterinaire}} </td>
+                                <td>{{vis.montant|default:"-"}} </td>
+                                <td>{{vis.commentaire}} </td>
+                                <td>
+                                    <a href= "{% url 'update_visite' vis.id %}" >
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                <div class="text-right">
+                    <a href= "{% url 'create_visite_animal' animal.id %}" class="m-2 float-right btn btn-info">
+                        Déclarer une visite vétérinaire</a>
+                </div>
+
             </div>
         </div>
     </div>
