@@ -54,6 +54,12 @@ th {
 
 label.required { font-weight: bold; }
 
+i.fa-clone{
+    color: #17a2b8;
+    font-size: 1.5em;
+    padding: 0 0.5em;
+}
+
 i.DISPONIBLE{
     color:#398a21;
 }
