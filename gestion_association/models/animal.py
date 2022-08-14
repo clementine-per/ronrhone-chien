@@ -344,6 +344,13 @@ class Animal(models.Model):
     def is_adoptable(self):
         return self.statut == StatutAnimal.ADOPTABLE.name or self.statut == StatutAnimal.A_ADOPTER.name
 
+    def get_montant_veto_total(self):
+        montant_total = 0
+        for vis in self.visites.all():
+            if vis.montant is not None:
+                montant_total += vis.get_montant_par_animal()
+        return f"{montant_total}"
+
 
 class Parrainage(models.Model):
     date_debut = models.DateField(verbose_name="Date de début")

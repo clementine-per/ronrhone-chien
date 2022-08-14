@@ -242,7 +242,7 @@
                                 <td>{{vis.date|date:"d/m/Y"}}</td>
                                 <td>{{vis.get_type_visite_display}}</td>
                                 <td>{{vis.veterinaire}} </td>
-                                <td>{{vis.montant|default:"-"}} </td>
+                                <td>{{vis.get_montant_par_animal|default:"-"}} </td>
                                 <td>{{vis.commentaire}} </td>
                                 <td>
                                     <a href= "{% url 'update_visite' vis.id %}" >
@@ -251,6 +251,14 @@
                                 </td>
                             </tr>
                             {% endfor %}
+                            <tr class="table-info">
+                                <td></td>
+                                <td class="font-weight-bold">Montant Total des visites</td>
+                                <td> </td>
+                                <td class="font-weight-bold">{{animal.get_montant_veto_total}} </td>
+                                <td> </td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
