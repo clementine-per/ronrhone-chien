@@ -84,6 +84,7 @@ class AnimalCreateForm(ModelForm):
             "commentaire_sante",
             "lien_icad",
             "ancien_proprio",
+            "contact",
             "educateur",
         )
 
@@ -136,6 +137,7 @@ class AnimalInfoUpdateForm(ModelForm):
             "lien_icad",
             "educateur",
             "ancien_proprio",
+            "contact",
             "inactif",
         )
 
