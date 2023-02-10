@@ -31,6 +31,7 @@
                 <strong> Commentaire </strong> : {{famille.commentaire}} <br>
                 <strong> Formation réalisée </strong> : {{famille.get_formation_faite_display}} <br>
                 <strong> Formation payée </strong> : {{famille.get_formation_payee_display}} <br>
+                <strong> Véhiculé(e) </strong> : {{famille.get_vehicule_display}} <br>
                 <hr />
                 <strong> Animaux accueillis au total </strong> : {{famille.accueil_set.count}} <br>
                 <strong> Animaux accueillis en ce moment </strong> : {% for animal in famille.animal_set.all %}

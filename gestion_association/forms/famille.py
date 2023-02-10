@@ -70,7 +70,8 @@ class FamilleCreateForm(ModelForm):
             "niveau",
             "nb_heures_absence",
             "formation_faite",
-            "formation_payee"
+            "formation_payee",
+            "vehicule"
         )
 
 
@@ -80,7 +81,7 @@ class FamilleMainUpdateForm(ModelForm):
     class Meta:
         model = Famille
         fields = ("type_animal", "statut", "niveau", "commentaire","formation_faite",
-            "formation_payee")
+            "formation_payee", "vehicule")
 
 
 class FamilleAccueilUpdateForm(ModelForm):

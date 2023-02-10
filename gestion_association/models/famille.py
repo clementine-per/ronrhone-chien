@@ -90,6 +90,12 @@ class Famille(models.Model):
         verbose_name="Formation payée",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
+    vehicule = models.CharField(
+        max_length=3,
+        default="NON",
+        verbose_name="Véhiculé(e)",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
 
     def get_nb_places_str(self):
         count = self.nb_places
