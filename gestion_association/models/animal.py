@@ -369,3 +369,4 @@ class Parrainage(models.Model):
         max_digits=5,
         decimal_places=2, blank=True, null=True
     )
+    date_nouvelles = models.DateField(verbose_name="Date des dernières nouvelles données", blank=True, null=True)
