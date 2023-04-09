@@ -76,7 +76,7 @@ def personal_infos(p, animal):
     p.drawString(2 * cm, 20.5 * cm, f"- Date de naissance : ")
     p.drawString(2 * cm, 19.7 * cm, f"- Adresse postale : {animal.adoptant.adresse}, {animal.adoptant.code_postal}")
     p.drawString(2 * cm, 18.9 * cm, f"- Téléphone : {animal.adoptant.telephone}")
-    p.drawString(6.75 * cm, 18.9 * cm, f"- Adresse e-mail : {animal.adoptant.email}")
+    p.drawString(8 * cm, 18.9 * cm, f"- Adresse e-mail : {animal.adoptant.email}")
     p.drawString(2 * cm, 18.1 * cm, f"- Profession : {animal.adoptant.profession}")
 
     # Checkbox
@@ -119,6 +119,7 @@ def infos_animal(p, animal):
     p.drawString(2 * cm, 11.15 * cm, f"- Vaccination : {animal.get_type_vaccin_display()}")
     p.drawString(2 * cm, 10.55 * cm, "- Sexe : " + animal.sexe)
     p.drawString(11 * cm, 10.55 * cm, "- Race : " + animal.type)
+    date_naissance = "-"
     if animal.date_naissance:
         date_naissance = animal.date_naissance.strftime("%d/%m/%Y")
     p.drawString(2 * cm, 9.95 * cm, "- Date de naissance : " + date_naissance)
@@ -227,15 +228,15 @@ def contract_pieces(p, animal, offset):
         mask="auto",
     )
     p.drawString(2.5 * cm, (offset - 2) * cm, "Justificatif de domicile de moins de trois mois")
-    p.drawImage(
-        f"{settings.STATIC_ROOT}/img/star.PNG",
-        2 * cm,
-        (offset - 2.5) * cm,
-        width=0.5 * cm,
-        height=0.5 * cm,
-        mask="auto",
-    )
     if animal.sterilise == OuiNonChoice.NON.name:
+        p.drawImage(
+            f"{settings.STATIC_ROOT}/img/star.PNG",
+            2 * cm,
+            (offset - 2.5) * cm,
+            width=0.5 * cm,
+            height=0.5 * cm,
+            mask="auto",
+        )
         p.drawString(2.5 * cm, (offset - 2.5) * cm, "Chèque de caution de 200,00€ à l’ordre de "
                                                     "l’Association RONRHONE.")
 
