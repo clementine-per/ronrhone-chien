@@ -14,6 +14,13 @@ from gestion_association.models.adoption import TarifAdoption, TarifBonSterilisa
 from gestion_association.models.animal import Animal, statuts_association, StatutAnimal
 from gestion_association.models.famille import Famille, StatutAccueil, Accueil
 
+statuts_adoption = [
+    StatutAnimal.A_ADOPTER.name,
+    StatutAnimal.ADOPTION.name,
+    StatutAnimal.ADOPTABLE.name,
+    StatutAnimal.ADOPTE.name,
+]
+
 @login_required
 def index(request):
     selected = "accueil"
@@ -52,11 +59,12 @@ def index(request):
     adoption_paiement = adoption_paiement_list.count()
     # Adoptions attendant leur visite de contrôle
     adoption_post = Adoption.objects.filter(visite_controle=OuiNonChoice.NON.name)\
-        .filter(date_visite__lte=today).filter(animal__sterilise=OuiNonChoice.OUI.name).count()
+        .filter(date_visite__lte=today).filter(animal__sterilise=OuiNonChoice.OUI.name)\
+        .filter(animal__statut__in=statuts_adoption).count()
     # Post visite à contrôler
     adoption_controle = Adoption.objects.\
         filter(visite_controle__in=[OuiNonVisiteChoice.ALIMENTAIRE.name,OuiNonVisiteChoice.VACCIN.name])\
-    .count()
+    .filter(animal__statut__in=statuts_adoption).count()
     # Adoptions à clore
     adoption_over = Adoption.objects.filter(animal__statut='ADOPTE')\
         .filter(visite_controle=OuiNonChoice.OUI.name).count()
