@@ -30,12 +30,12 @@ def index(request):
     interval_10 = today + timedelta(days=10)
     interval_5_weeks_ago = today - timedelta(days=35)
     interval_5_months_ago = today - relativedelta(months=5)
-    interval_7_months_ago = today - relativedelta(months=7)
+    interval_12_months_ago = today - relativedelta(months=7)
     # Valeurs str utilisées dans le template html
     today_str = today.strftime("%Y-%m-%d")
     interval_10_str = interval_10.strftime("%Y-%m-%d")
     interval_5_weeks_ago_str = interval_5_weeks_ago.strftime("%Y-%m-%d")
-    interval_7_months_ago_str = interval_7_months_ago.strftime("%Y-%m-%d")
+    interval_12_months_ago_str = interval_12_months_ago.strftime("%Y-%m-%d")
 
     statuts_association_filter = ""
     for statut in statuts_association:
@@ -71,7 +71,7 @@ def index(request):
     # Adoptions sans sterilisation
     adoption_ste = Adoption.objects.filter(animal__statut__in=(StatutAnimal.ADOPTION.name,StatutAnimal.ADOPTE_DEFINITIF.name, StatutAnimal.ADOPTE.name)).\
         filter(animal__sterilise=OuiNonChoice.NON.name) \
-        .filter(animal__date_naissance__lte=interval_7_months_ago).count()
+        .filter(animal__date_naissance__lte=interval_12_months_ago).count()
 
 
     # Partie soins

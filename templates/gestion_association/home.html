@@ -22,8 +22,8 @@
                             <strong>{{adoption_post}}</strong> chiens attendant leur viste post adoption
                         </a></p>
                         <p><a class="text-secondary"
-                              href= "{% url 'adoptions' %}?sterilise=NON&date_naissance_max={{interval_7_months_ago_str}}&statuts=ADOPTION&statuts=ADOPTE&statuts=ADOPTE_DEFINITIF">
-                            <strong>{{adoption_ste}}</strong> chiens adoptés de plus de 7 mois non stérilisés
+                              href= "{% url 'adoptions' %}?sterilise=NON&date_naissance_max={{interval_12_months_ago_str}}&statuts=ADOPTION&statuts=ADOPTE&statuts=ADOPTE_DEFINITIF">
+                            <strong>{{adoption_ste}}</strong> chiens adoptés de plus de 1 an non stérilisés
                         </a></p>
                         <p><a class="text-secondary" href= "{% url 'adoptions' %}?visite_controle=VACCIN&visite_controle=ALIMENTAIRE&statuts=ADOPTION&statuts=ADOPTE&statuts=ADOPTABLE&statuts=A_ADOPTER">
                             <strong>{{adoption_controle}}</strong> post visites à contrôler (Vaccin ou Transition alimentaire)
