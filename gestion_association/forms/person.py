@@ -28,6 +28,7 @@ class PersonForm(ModelForm):
             "ville",
             "telephone",
             "profession",
+            "date_naissance",
             "commentaire",
             "inactif",
         )
@@ -37,6 +38,10 @@ class PersonForm(ModelForm):
 
     def clean_nom(self):
         return self.cleaned_data['nom'].upper()
+
+    def __init__(self, *args, **kwargs):
+        super(PersonForm, self).__init__(*args, **kwargs)
+        self.fields['date_naissance'].widget.attrs['class'] = 'datePicker'
 
 
 class BenevoleForm(ModelForm):

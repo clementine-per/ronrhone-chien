@@ -64,6 +64,7 @@ class Person(models.Model):
         blank=True,
         verbose_name="Information sur le rôle de cette bénévole au sein de l'association",
     )
+    date_naissance = models.DateField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         slug = slugify(self.prenom)+"."+self.nom

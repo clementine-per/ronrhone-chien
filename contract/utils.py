@@ -73,7 +73,10 @@ def personal_infos(p, animal):
     para.drawOn(p, 4.30 * cm, 22.5 * cm)
     p.setFont("Times-Bold", 0.45 * cm)
     p.drawString(2 * cm, 21.3 * cm, f"- Nom et prénom : {animal.adoptant.prenom} {animal.adoptant.nom}")
-    p.drawString(2 * cm, 20.5 * cm, f"- Date de naissance : ")
+    date_birth= ""
+    if animal.adoptant.date_naissance:
+        date_birth = animal.adoptant.date_naissance.strftime("%d/%m/%Y")
+    p.drawString(2 * cm, 20.5 * cm, f"- Date de naissance : {date_birth}")
     p.drawString(2 * cm, 19.7 * cm, f"- Adresse postale : {animal.adoptant.adresse}, {animal.adoptant.code_postal}")
     p.drawString(2 * cm, 18.9 * cm, f"- Téléphone : {animal.adoptant.telephone}")
     p.drawString(8 * cm, 18.9 * cm, f"- Adresse e-mail : {animal.adoptant.email}")

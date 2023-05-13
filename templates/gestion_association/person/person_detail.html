@@ -40,6 +40,11 @@
                         <strong> Commentaire </strong> : {{person.commentaire}} <br>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Date de naissance </strong> : {{person.date_naissance|date:"d/m/Y"|default:" - "}} <br>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
