@@ -86,6 +86,8 @@ class AnimalCreateForm(ModelForm):
             "ancien_proprio",
             "contact",
             "educateur",
+            "color",
+            "race"
         )
 
     def __init__(self, *args, **kwargs):
@@ -138,6 +140,8 @@ class AnimalInfoUpdateForm(ModelForm):
             "educateur",
             "ancien_proprio",
             "contact",
+            "color",
+            "race",
             "inactif",
         )
 

@@ -75,17 +75,25 @@
                     </div>
 
                 </div>
-                {% if animal.ancien_proprio %}
+
                 <div class="row">
-                    <div class="col">
+                    <div class="col-sm-6">
+                        <strong> Contact prise en charge </strong> : {{animal.contact}}
+                    </div>
+                    {% if animal.ancien_proprio %}
+                    <div class="col-sm-6">
                         <strong> Ancien propriétaire </strong> : <a href = "{% url 'detail_person' animal.ancien_proprio.id %}">
                         {{ animal.ancien_proprio }}</a>
                     </div>
+                    {% endif %}
                 </div>
-                {% endif %}
+
                 <div class="row">
-                    <div class="col">
-                        <strong> Contact prise en charge </strong> : {{animal.contact}}
+                    <div class="col-sm-6">
+                        <strong> Robe </strong> : {{animal.color}}
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Race </strong> : {{animal.race}}
                     </div>
                 </div>
                 {% if animal.is_adoptable %}

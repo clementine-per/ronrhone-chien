@@ -256,6 +256,8 @@ class Animal(models.Model):
     preference = models.OneToOneField(Preference, on_delete=models.PROTECT, blank=True, null=True)
     groupe = models.ForeignKey(AnimalGroup, on_delete=models.CASCADE, blank=True, null=True)
     commentaire_animaux_lies = models.CharField(max_length=1000, blank=True)
+    race = models.CharField(max_length=100, blank=True)
+    color = models.CharField(max_length=100, blank=True, verbose_name="Robe")
     tranche_age = models.CharField(
         max_length=10,
         blank=True,

@@ -121,12 +121,12 @@ def infos_animal(p, animal):
     p.drawString(2 * cm, 11.75 * cm, f"- Nom du chien : {animal.nom}")
     p.drawString(2 * cm, 11.15 * cm, f"- Vaccination : {animal.get_type_vaccin_display()}")
     p.drawString(2 * cm, 10.55 * cm, "- Sexe : " + animal.sexe)
-    p.drawString(11 * cm, 10.55 * cm, "- Race : " + animal.type)
+    p.drawString(11 * cm, 10.55 * cm, "- Race : " + animal.race)
     date_naissance = "-"
     if animal.date_naissance:
         date_naissance = animal.date_naissance.strftime("%d/%m/%Y")
     p.drawString(2 * cm, 9.95 * cm, "- Date de naissance : " + date_naissance)
-    p.drawString(11 * cm, 9.95 * cm, "- Robe : ")
+    p.drawString(11 * cm, 9.95 * cm, "- Robe : " + animal.color)
     p.drawString(2 * cm, 9.35 * cm, "- Signes particuliers : ")
 
     p.drawString(2 * cm, 8.5 * cm, f"Frais d'adoption : {animal.get_latest_adoption().montant} €")
