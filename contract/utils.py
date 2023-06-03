@@ -94,19 +94,23 @@ def personal_infos(p, animal):
     para.drawOn(p, 2.2 * cm, 17.5 * cm)
 
     p.setFont("Helvetica", 0.4 * cm)
-    p.drawString(
-        3 * cm,
-        17.3 * cm,
-        "Moi, l'adoptant, déclare consentir à ce que l'Association Ron'Rhône transmette"
-        "ce contrat ",
+    para = Paragraph("Moi, l'adoptant, déclare consentir à ce que l'Association Ron'Rhône transmette "
+                     "ce contrat d'adoption à la Fondation Capellino/Almo Nature, dans le cadre "
+                     "de la bonne mise en œuvre du projet Companion Animal For Life, "
+                     "dont l’association est partenaire et uniquement dans ce cadre."
+                     "<br/>Plus d’information sur www.companionanimalforlife.org ou à "
+                     "partir de ce QR code")
+    para.wrap(11 * cm, 15 * cm)
+    para.drawOn(p, 3 * cm, 14.8 * cm)
+    # QR code
+    p.drawImage(
+        f"{settings.STATIC_ROOT}/img/QR.jpg",
+        15 * cm,
+        14.6 * cm,
+        width=3.6 * cm,
+        height=3.6 * cm,
+        mask="auto",
     )
-    p.drawString(
-        2 * cm, 16.65 * cm, "d'adoption à la Fondation Capellino/Almo Nature, dans le cadre "
-                            "de la bonne mise en œuvre du projet "
-    )
-    p.drawString(2 * cm, 16.0 * cm, "Companion Animal For Life, dont l’association est partenaire "
-                                    "et uniquement dans ce cadre.")
-    p.drawString(2 * cm, 15.35 * cm, "Plus d’information sur www.companionanimalforlife.org")
 
 
 def infos_animal(p, animal):
