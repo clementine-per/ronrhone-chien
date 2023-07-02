@@ -48,28 +48,28 @@ def index(request):
     #A l'adoption
     a_l_adoption = Animal.objects.filter(inactif=False).filter(statut='A_ADOPTER').count()
     # Acomptes
-    acomptes = Adoption.objects.filter(acompte_verse=OuiNonChoice.NON.name).count()
+    acomptes = Adoption.objects.filter(annule=False).filter(acompte_verse=OuiNonChoice.NON.name).count()
     # Adoptions pré-visites
-    adoption_previsite = Adoption.objects.filter(animal__statut='ADOPTION') \
+    adoption_previsite = Adoption.objects.filter(annule=False).filter(animal__statut='ADOPTION') \
         .filter(pre_visite=OuiNonChoice.NON.name).filter(acompte_verse=OuiNonChoice.OUI.name).count()
     # Adoptions en attente de paiement complet
-    adoption_paiement_list = Adoption.objects.filter(animal__statut='ADOPTION').filter(pre_visite=OuiNonChoice.OUI.name) \
+    adoption_paiement_list = Adoption.objects.filter(annule=False).filter(animal__statut='ADOPTION').filter(pre_visite=OuiNonChoice.OUI.name) \
         .filter(acompte_verse=OuiNonChoice.OUI.name).filter(montant_restant__gt = Decimal(0))
     adoption_paiement_montant = adoption_paiement_list.aggregate(Sum('montant_restant'))
     adoption_paiement = adoption_paiement_list.count()
     # Adoptions attendant leur visite de contrôle
-    adoption_post = Adoption.objects.filter(visite_controle=OuiNonChoice.NON.name)\
+    adoption_post = Adoption.objects.filter(annule=False).filter(visite_controle=OuiNonChoice.NON.name)\
         .filter(date_visite__lte=today).filter(animal__sterilise=OuiNonChoice.OUI.name)\
         .filter(animal__statut__in=statuts_adoption).count()
     # Post visite à contrôler
-    adoption_controle = Adoption.objects.\
+    adoption_controle = Adoption.objects.filter(annule=False).\
         filter(visite_controle__in=[OuiNonVisiteChoice.ALIMENTAIRE.name,OuiNonVisiteChoice.VACCIN.name])\
     .filter(animal__statut__in=statuts_adoption).count()
     # Adoptions à clore
-    adoption_over = Adoption.objects.filter(animal__statut='ADOPTE')\
+    adoption_over = Adoption.objects.filter(annule=False).filter(animal__statut='ADOPTE')\
         .filter(visite_controle=OuiNonChoice.OUI.name).count()
     # Adoptions sans sterilisation
-    adoption_ste = Adoption.objects.filter(animal__statut__in=(StatutAnimal.ADOPTION.name,StatutAnimal.ADOPTE_DEFINITIF.name, StatutAnimal.ADOPTE.name)).\
+    adoption_ste = Adoption.objects.filter(annule=False).filter(animal__statut__in=(StatutAnimal.ADOPTION.name,StatutAnimal.ADOPTE_DEFINITIF.name, StatutAnimal.ADOPTE.name)).\
         filter(animal__sterilise=OuiNonChoice.NON.name) \
         .filter(animal__date_naissance__lte=interval_12_months_ago).count()
 
@@ -109,7 +109,7 @@ def index(request):
 
     #Taux de remplissage
     familles_occupees =  Famille.objects.filter(animal__isnull=False).distinct().count()
-    total_familles = Famille.objects.filter(statut__in=('DISPONIBLE','INDISPONIBLE','OCCUPE')).count()
+    total_familles = Famille.objects.filter(statut__in=('DISPONIBLE','OCCUPE')).count()
     if total_familles > 0:
         taux_remplissage = int((familles_occupees/total_familles) * 100)
 

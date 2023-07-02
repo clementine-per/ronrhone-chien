@@ -6,7 +6,6 @@ from django.dispatch import receiver
 from enum import Enum
 
 from gestion_association.models import OuiNonChoice
-from gestion_association.models.animal import TypeVaccinChoice
 
 
 class TypeVisiteVetoChoice(Enum):

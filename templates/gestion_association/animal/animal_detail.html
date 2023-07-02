@@ -287,6 +287,54 @@
         </div>
     </div>
 </div>
+
+<div class="row p-4">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                Séances d'éducation
+            </div>
+            {% if animal.trainings.all.count >= 1 %}
+            <div class="table-responsive-sm p-4">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Type de session</th>
+                            <th scope="col">Educateur</th>
+                            <th>Montant</th>
+                            <th scope="col">Commentaire</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for training in animal.trainings.all %}
+                        <tr class="table-info">
+                            <td>{{training.date|date:"d/m/Y"}}</td>
+                            <td>{{training.get_type_training_display}}</td>
+                            <td>{{training.trainer}} </td>
+                            <td>{{training.amount|default:"-"}} </td>
+                            <td>{{training.comment}} </td>
+                            <td>
+                                <a href= "{% url 'update_training' training.id %}" >
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            <div class="text-right">
+                <a href= "{% url 'create_training_animal' animal.id %}" class="m-2 float-right btn btn-info">
+                    Déclarer une séance d'éducation</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="row p-4">
     <div class="col-sm-12 mt-3">
         <div class="card">
@@ -348,7 +396,7 @@
     </div>
 </div>
 {% if animal.accueil_set.all.count >= 1 %}
-<div class="row p-2">
+<div class="row p-4">
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
