@@ -3,7 +3,7 @@
 {% block content %}
 <h2>Modifier l'adoption de {{object.animal.nom}}</h2>
 <br/>
-<form method="post" action="" id="adoptionForm" data-calcul-montant-url="{% url 'calcul_montant_restant' animal.id %}"
+<form method="post" action="" id="adoptionForm" data-calcul-montant-url="{% url 'calcul_montant_restant' object.animal.id%}"
       enctype="multipart/form-data" autocomplete="off">
     {% csrf_token %}
     {{ form.media }}
