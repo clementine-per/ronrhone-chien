@@ -77,10 +77,18 @@
                 </div>
                 <div class="row">
                     <div class="col">
+                        <strong> Logement </strong> : {{famille.house}} <br>
+                    </div>
+                    <div class="col">
+                        <strong> Composition du foyer</strong> : {{famille.household}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <strong> Extérieur </strong> : {{famille.get_exterieur_display}} <br>
                     </div>
                     <div class="col">
-                        <strong> Nombre maximum d'heures d'absence consécutives</strong> : {{famille.nb_heures_absence|default:""}} <br>
+                        <strong> Temps d'absence</strong> : {{famille.absence}} <br>
                     </div>
                 </div>
 
@@ -88,8 +96,6 @@
                     <div class="col">
                         <strong> Présence de chats </strong> : {{famille.get_chats_display}} <br>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col">
                         <strong> Présence d'autres chiens </strong> : {{famille.get_congeneres_display}} <br>
                     </div>

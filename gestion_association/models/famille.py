@@ -48,12 +48,10 @@ class Famille(models.Model):
     commentaire = models.CharField(max_length=1000, blank=True)
     nb_places = models.IntegerField(verbose_name="Nombre de places")
     detail_places = models.CharField(max_length=1000, blank=True, verbose_name="Détail des accueils acceptés")
+    household = models.CharField(max_length=300, blank=True, verbose_name="Composition du foyer")
+    house = models.CharField(max_length=300, blank=True, verbose_name="Logement")
     autres_animaux = models.CharField(max_length=1000, blank=True, verbose_name="Animaux de la FA ")
-    nb_heures_absence = models.IntegerField(
-        null=True,
-        blank=True,
-        verbose_name=" Nombre maximum d'heures d'absence consécutives",
-    )
+    absence = models.CharField(max_length=300, blank=True, verbose_name="Temps d'absence")
     vehicule = models.CharField(
         max_length=3,
         default="NON",
@@ -105,23 +103,19 @@ class Famille(models.Model):
                 result += str(indispo)
         return mark_safe(result)
 
-    def get_formation_str(self):
-        result = ""
-        if self.formation_faite == OuiNonChoice.OUI.name:
-            result += "Réalisée"
-            if self.formation_payee == OuiNonChoice.OUI.name:
-                result += " et payée"
-            else:
-                result += " non payée"
-        else:
-            result += "Non réalisée"
-        return mark_safe(result)
-
     def get_preference_str(self):
         result = ""
         if self.detail_places:
             result += "Détail des accueils acceptés : "
             result +=self.detail_places
+            result += "\n"
+        if self.house:
+            result += "Logement : "
+            result +=self.house
+            result += "\n"
+        if self.household:
+            result += "Composition du foyer : "
+            result +=self.household
             result += "\n"
         if self.exterieur and self.exterieur == "OUI":
             result += " avec extérieur"
@@ -132,9 +126,9 @@ class Famille(models.Model):
             result += "Autres animaux de la FA : "
             result +=self.autres_animaux
             result += "\n"
-        if self.nb_heures_absence :
-            result += "Nombre maximum d'heures d'absence consécutives : "
-            result += str(self.nb_heures_absence)
+        if self.absence :
+            result += "Temps d'absence : "
+            result += str(self.absence)
             result += "\n"
         return result
 
