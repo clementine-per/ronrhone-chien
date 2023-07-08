@@ -282,22 +282,31 @@ def get_montant_adoption(animal):
     return None
 
 
-def calcul_montant_restant(request):
+def calcul_montant_restant(request, pk):
+    animal = Animal.objects.get(id=pk)
     # Méthode de calcul dynamique du montant restant en fonction de l'acompte
-    montant_adoption = Decimal(0)
-    montant_restant = Decimal(0)
+    montant_adoption = get_montant_adoption(animal)
+    montant_restant = montant_adoption
+    if not montant_adoption:
+        return JsonResponse(
+            {
+                "montant": "",
+                "montant_restant": "",
+            }
+        )
     # Récupération des données utiles au calcul
-    montant_actuel_str = request.POST["montant"]
-    montant_restant_str = request.POST["montant_restant"]
     acompte_verse_input = request.POST["acompte_verse"]
-    if montant_restant_str:
-        montant_restant = Decimal(montant_restant_str)
-    if montant_actuel_str:
-        montant_adoption = Decimal(montant_actuel_str)
+    session_amount_str = request.POST["session_amount"]
+    nb_sessions_str = request.POST["nb_sessions"]
+    # Application du prix des séances d'éducation
+    if session_amount_str and nb_sessions_str:
+        session_amount = Decimal(session_amount_str)
+        nb_sessions = int(nb_sessions_str)
+        montant_adoption += session_amount * nb_sessions
+        montant_restant += session_amount * nb_sessions
     # Application de l'acompte de 100 euros si necessaire
-    if montant_actuel_str and acompte_verse_input and acompte_verse_input == "OUI":
+    if acompte_verse_input and acompte_verse_input == "OUI":
         montant_restant = montant_adoption - Decimal(100)
-    # Application du prix du bon de stérilisation
     # Renvoyer vue json
     return JsonResponse(
         {

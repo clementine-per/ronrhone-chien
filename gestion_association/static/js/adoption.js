@@ -1,5 +1,5 @@
 $("#adoptionForm").on("change", "*", function (event) {
-  var champs_restant = ["acompte_verse", "montant", "show"];
+  var champs_restant = ["acompte_verse", "montant", "show", "nb_sessions", "session_amount"];
   var champ_sterilisation = ["show"];
   if (champs_restant.indexOf(event.target.name) != -1) {
     var url = $("#adoptionForm").data("calcul-montant-url");

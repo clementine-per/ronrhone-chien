@@ -122,7 +122,7 @@ urlpatterns = [
         name="create_bon",
     ),
     path(
-        "ajax/calcul_montant_restant/",
+        "ajax/calcul_montant_restant/<int:pk>/",
         adoption.calcul_montant_restant,
         name="calcul_montant_restant",
     ),

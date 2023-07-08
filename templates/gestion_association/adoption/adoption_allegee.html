@@ -5,7 +5,7 @@
 <h1> Adoption de {{animal.nom}} </h1>
 <br>
 
-<form method="post" id="adoptionForm" data-calcul-montant-url="{% url 'calcul_montant_restant'%}"
+<form method="post" id="adoptionForm" data-calcul-montant-url="{% url 'calcul_montant_restant'  animal.id %}"
 	  data-calcul-montant-sterilisation-url="{% url 'calcul_montant_sterilisation' animal.id %}" novalidate
 autocomplete="off">
 	{% csrf_token %}

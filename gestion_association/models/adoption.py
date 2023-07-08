@@ -76,6 +76,18 @@ class Adoption(models.Model):
         default="NON",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
+    session_amount = models.DecimalField(
+        verbose_name="Montant d'une séance d'éducation",
+        max_digits=7,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    nb_sessions = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Nombre de séances d'éducation",
+    )
 
     def save(self, *args, **kwargs):
         # Maj statut lors de la création de l'adoption
