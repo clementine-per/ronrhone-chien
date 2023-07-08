@@ -1,5 +1,4 @@
 import json
-import sys
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -35,12 +34,8 @@ def create_famille(request, pk):
     personne = Person.objects.get(id=pk)
     if request.method == "POST":
         famille_form = FamilleCreateForm(data=request.POST)
-        preference_form = PreferenceFaForm(data=request.POST)
-        if famille_form.is_valid() and preference_form.is_valid():
-            # Rattachement manuel de la personne et des préférences
-            preference = preference_form.save()
+        if famille_form.is_valid():
             famille = famille_form.save(commit=False)
-            famille.preference = preference
             famille.personne = personne
             famille.save()
             # La personne devient FA
@@ -49,7 +44,6 @@ def create_famille(request, pk):
             return redirect("detail_famille", pk=famille.id)
     else:
         famille_form = FamilleCreateForm()
-        preference_form = PreferenceFaForm()
     return render(request, "gestion_association/famille/famille_create_form.html", locals())
 
 
@@ -71,7 +65,6 @@ def famille_list(request):
         prenom_personne_form = request.GET.get("prenom_personne", "")
         nom_personne_form = request.GET.get("nom_personne", "")
         places_dispos_form = request.GET.get("places_dispos", "")
-        rehabilitation_form = request.GET.get("rehabilitation", "")
         exterieur_form = request.GET.get("exterieur", "")
         statut_form = request.GET.get("statut", "")
         vide_form = request.GET.get("vide", "")
@@ -100,11 +93,8 @@ def famille_list(request):
                 famille_list = famille_list.filter(animal__isnull=False)
             elif vide_form == 'OUI':
                 famille_list = famille_list.filter(animal__isnull=True)
-        if rehabilitation_form:
-            famille_list = famille_list.filter(preference__rehabilitation=rehabilitation_form)
-            form.fields["rehabilitation"].initial = rehabilitation_form
         if exterieur_form:
-            famille_list = famille_list.filter(preference__exterieur=exterieur_form)
+            famille_list = famille_list.filter(exterieur=exterieur_form)
             form.fields["exterieur"].initial = exterieur_form
         if places_dispos_form:
             famille_list = famille_list.annotate(nb_animaux=Count("animal"))\
@@ -217,14 +207,11 @@ def update_accueil_famille(request, pk):
     famille = Famille.objects.get(id=pk)
     if request.method == "POST":
         famille_form = FamilleAccueilUpdateForm(data=request.POST, instance=famille)
-        preference_form = PreferenceFaForm(data=request.POST, instance=famille.preference)
-        if famille_form.is_valid() and preference_form.is_valid():
-            preference = preference_form.save()
+        if famille_form.is_valid() :
             famille = famille_form.save()
             return redirect("detail_famille", pk=famille.id)
     else:
         famille_form = FamilleAccueilUpdateForm(instance=famille)
-        preference_form = PreferenceFaForm(instance=famille.preference)
     return render(request, "gestion_association/famille/famille_accueil_form.html", locals())
 
 

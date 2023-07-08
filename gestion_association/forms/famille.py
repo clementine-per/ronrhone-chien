@@ -13,7 +13,6 @@ from django.forms import (
     ModelMultipleChoiceField,
     Select,
 )
-from django.utils import timezone
 
 from gestion_association.models import OuiNonChoice
 from gestion_association.models.animal import Animal
@@ -34,11 +33,6 @@ class FamilleSearchForm(Form):
         required=False,
     )
     places_dispos = IntegerField(required=False, label="Nombre de places disponibles minimum")
-    rehabilitation = ChoiceField(
-        choices=BLANK_CHOICE_DASH + [(tag.name, tag.value) for tag in OuiNonChoice],
-        widget=Select(),
-        required=False,
-    )
     exterieur = ChoiceField(
         choices=BLANK_CHOICE_DASH + [(tag.name, tag.value) for tag in OuiNonChoice],
         widget=Select(),
@@ -59,19 +53,16 @@ class FamilleCreateForm(ModelForm):
     class Meta:
         model = Famille
         fields = (
-            "type_animal",
             "commentaire",
-            "taille_logement",
             "autres_animaux",
+            "chats",
+            "congeneres",
             "nb_places",
             "detail_places",
-            "longue_duree",
             "statut",
-            "niveau",
             "nb_heures_absence",
-            "formation_faite",
-            "formation_payee",
-            "vehicule"
+            "vehicule",
+            "exterieur"
         )
 
 
@@ -80,8 +71,7 @@ class FamilleMainUpdateForm(ModelForm):
     required_css_class = 'required'
     class Meta:
         model = Famille
-        fields = ("type_animal", "statut", "niveau", "commentaire","formation_faite",
-            "formation_payee", "vehicule")
+        fields = ("statut", "commentaire", "vehicule")
 
 
 class FamilleAccueilUpdateForm(ModelForm):
@@ -89,7 +79,8 @@ class FamilleAccueilUpdateForm(ModelForm):
     required_css_class = 'required'
     class Meta:
         model = Famille
-        fields = ("taille_logement", "autres_animaux", "nb_places", "detail_places", "longue_duree","nb_heures_absence")
+        fields = ( "autres_animaux", "chats","congeneres", "nb_places", "detail_places", "nb_heures_absence"
+                   , "exterieur")
 
 
 class IndisponibiliteForm(ModelForm):

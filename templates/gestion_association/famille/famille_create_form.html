@@ -10,7 +10,6 @@
 <form method="post" action="">
     {% csrf_token %}
     {{ famille_form.as_p }}
-    {{ preference_form.as_p }}
     <div class="row">
         <div class="col">
             <a href = "{% url 'detail_person' personne.id %}"  class="btn btn-secondary">Annuler</a>

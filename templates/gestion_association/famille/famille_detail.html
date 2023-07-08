@@ -26,11 +26,7 @@
             <div class="card-body">
                 <strong> Statut </strong> :
                 <span><i class="fa fa-circle {{famille.statut}}"></i> {{famille.get_statut_display}}</span><br>
-                <strong> Niveau </strong> : {{famille.get_niveau_display}} <br>
-                <strong> Type d'animaux accueillis </strong> : {{famille.get_type_animal_display}} <br>
                 <strong> Commentaire </strong> : {{famille.commentaire}} <br>
-                <strong> Formation réalisée </strong> : {{famille.get_formation_faite_display}} <br>
-                <strong> Formation payée </strong> : {{famille.get_formation_payee_display}} <br>
                 <strong> Véhiculé(e) </strong> : {{famille.get_vehicule_display}} <br>
                 <hr />
                 <strong> Animaux accueillis au total </strong> : {{famille.accueil_set.count}} <br>
@@ -70,9 +66,6 @@
                     <div class="col">
                         <strong> Animaux de la FA </strong> : {{famille.autres_animaux}} <br>
                     </div>
-                    <div class="col">
-                        <strong> Taille du logement </strong> : {{famille.taille_logement}} m² <br>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col">
@@ -84,42 +77,21 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <strong> Extérieur </strong> : {{famille.preference.get_exterieur_display}} <br>
-                    </div>
-                    <div class="col">
-                        <strong> Biberonnage </strong> : {{famille.preference.get_biberonnage_display}} <br>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <strong> Ville </strong> : {{famille.preference.get_ville_display}} <br>
+                        <strong> Extérieur </strong> : {{famille.get_exterieur_display}} <br>
                     </div>
                     <div class="col">
                         <strong> Nombre maximum d'heures d'absence consécutives</strong> : {{famille.nb_heures_absence|default:""}} <br>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col">
-                        <strong> Réhabilitation </strong> : {{famille.preference.get_rehabilitation_display}} <br>
-                    </div>
-                    <div class="col">
-                        <strong> Longue durée </strong> : {{famille.get_longue_duree_display}} <br>
+                        <strong> Présence de chats </strong> : {{famille.get_chats_display}} <br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <strong> Enfant(s) de moins de 12 ans </strong> : {{famille.preference.get_enfants_display}} <br>
-                    </div>
-                    <div class="col">
-                        <strong> Présence de chats </strong> : {{famille.preference.get_chats_display}} <br>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <strong> Présence d'autres chiens </strong> : {{famille.preference.get_congeneres_display}} <br>
-                    </div>
-                    <div class="col">
-                        <strong> Vie en ville </strong> : {{famille.preference.get_ville_display}} <br>
+                        <strong> Présence d'autres chiens </strong> : {{famille.get_congeneres_display}} <br>
                     </div>
                 </div>
             </div>

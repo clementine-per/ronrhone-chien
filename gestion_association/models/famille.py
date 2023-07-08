@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 
-from gestion_association.models import OuiNonChoice, TypeChoice
+from gestion_association.models import OuiNonChoice
 from gestion_association.models.person import Person
 
 
@@ -16,16 +16,17 @@ class StatutFamille(Enum):
     INACTIVE = "Inactive"
     ADHESION = "Attente adhésion"
 
+
+class OuiNonNullChoice(Enum):
+    OUI = "Oui"
+    NON = "Non"
+    IND = "Indéterminé"
+
+
 class StatutAccueil(Enum):
     EN_COURS = "En cours"
     TERMINE = "Terminé"
     A_DEPLACER = "A déplacer"
-
-
-class Niveau(Enum):
-    DEBUTANT = "Débutant"
-    INTERMEDIAIRE = "Intermédiaire"
-    CONFIRME = "Confirmé"
 
 
 class Famille(models.Model):
@@ -41,60 +42,41 @@ class Famille(models.Model):
         default="A_VISITER",
         choices=[(tag.name, tag.value) for tag in StatutFamille],
     )
-    niveau = models.CharField(
-        max_length=20,
-        blank=True,
-        verbose_name="Niveau",
-        default="DEBUTANT",
-        choices=[(tag.name, tag.value) for tag in Niveau],
-    )
     nb_animaux_historique = models.IntegerField(
         default=0, verbose_name="Nombre d'animaux au total"
     )
     commentaire = models.CharField(max_length=1000, blank=True)
-    taille_logement = models.IntegerField(
-        null=True, blank=True, verbose_name="Taille du logement (en mètres carrés)"
-    )
-    longue_duree = models.CharField(
-        max_length=3,
-        default="OUI",
-        verbose_name="Accepte les accueils de longue durée",
-        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
-    )
     nb_places = models.IntegerField(verbose_name="Nombre de places")
     detail_places = models.CharField(max_length=1000, blank=True, verbose_name="Détail des accueils acceptés")
-    preference = models.OneToOneField(
-        "Preference", on_delete=models.PROTECT, blank=True, null=True
-    )
-    type_animal = models.CharField(
-        max_length=30,
-        verbose_name="Type d'animal accueilli",
-        default="CHIEN",
-        choices=[(tag.name, tag.value) for tag in TypeChoice],
-    )
     autres_animaux = models.CharField(max_length=1000, blank=True, verbose_name="Animaux de la FA ")
     nb_heures_absence = models.IntegerField(
         null=True,
         blank=True,
         verbose_name=" Nombre maximum d'heures d'absence consécutives",
     )
-    formation_faite = models.CharField(
-        max_length=3,
-        default="NON",
-        verbose_name="Formation réalisée",
-        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
-    )
-    formation_payee = models.CharField(
-        max_length=3,
-        default="NON",
-        verbose_name="Formation payée",
-        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
-    )
     vehicule = models.CharField(
         max_length=3,
         default="NON",
         verbose_name="Véhiculé(e)",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
+    exterieur = models.CharField(
+        max_length=3,
+        default="NON",
+        verbose_name="Extérieur",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
+    congeneres = models.CharField(
+        max_length=3,
+        default="IND",
+        verbose_name="Ok congénères",
+        choices=[(tag.name, tag.value) for tag in OuiNonNullChoice],
+    )
+    chats = models.CharField(
+        max_length=3,
+        default="IND",
+        verbose_name="Ok chats",
+        choices=[(tag.name, tag.value) for tag in OuiNonNullChoice],
     )
 
     def get_nb_places_str(self):
@@ -137,18 +119,11 @@ class Famille(models.Model):
 
     def get_preference_str(self):
         result = ""
-        result += "Famille de niveau "
-        result += self.get_niveau_display()
-        result += "\n"
         if self.detail_places:
             result += "Détail des accueils acceptés : "
             result +=self.detail_places
             result += "\n"
-        if self.taille_logement:
-            result += "Logement de "
-            result += str(self.taille_logement)
-            result += " m2"
-        if self.preference.exterieur and self.preference.exterieur == "OUI":
+        if self.exterieur and self.exterieur == "OUI":
             result += " avec extérieur"
         else:
             result += " sans extérieur"
@@ -156,15 +131,6 @@ class Famille(models.Model):
         if self.autres_animaux:
             result += "Autres animaux de la FA : "
             result +=self.autres_animaux
-            result += "\n"
-        if self.longue_duree and self.longue_duree == "OUI":
-            result += "OK longues durées"
-            result += "\n"
-        if self.preference.rehabilitation and self.preference.rehabilitation == "OUI":
-            result += "OK réhabilitation"
-            result += "\n"
-        if self.preference.biberonnage and self.preference.biberonnage == "OUI":
-            result += "OK biberonnage"
             result += "\n"
         if self.nb_heures_absence :
             result += "Nombre maximum d'heures d'absence consécutives : "
