@@ -65,6 +65,9 @@ def index(request):
     adoption_controle = Adoption.objects.filter(annule=False).\
         filter(visite_controle__in=[OuiNonVisiteChoice.ALIMENTAIRE.name,OuiNonVisiteChoice.VACCIN.name])\
     .filter(animal__statut__in=statuts_adoption).count()
+    # En attente d'adoption définitive
+    waiting_adoption_over = Adoption.objects.filter(annule=False).filter(animal__statut='ADOPTE') \
+        .count()
     # Adoptions à clore
     adoption_over = Adoption.objects.filter(annule=False).filter(animal__statut='ADOPTE')\
         .filter(visite_controle=OuiNonChoice.OUI.name).count()

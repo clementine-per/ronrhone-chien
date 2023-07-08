@@ -21,6 +21,9 @@
                         <p><a class="text-secondary" href= "{% url 'adoptions' %}?visite_controle=NON&date_visite_max={{today_str}}&sterilise=OUI&statuts=ADOPTION&statuts=ADOPTE&statuts=ADOPTABLE&statuts=A_ADOPTER">
                             <strong>{{adoption_post}}</strong> chiens attendant leur viste post adoption
                         </a></p>
+                        <p><a class="text-secondary" href= "{% url 'adoptions' %}?statuts=ADOPTE">
+                            <strong>{{waiting_adoption_over}}</strong> chiens attendant leur adoption définitive
+                        </a></p>
                         <p><a class="text-secondary"
                               href= "{% url 'adoptions' %}?sterilise=NON&date_naissance_max={{interval_12_months_ago_str}}&statuts=ADOPTION&statuts=ADOPTE&statuts=ADOPTE_DEFINITIF">
                             <strong>{{adoption_ste}}</strong> chiens adoptés de plus de 1 an non stérilisés
