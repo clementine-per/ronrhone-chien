@@ -171,6 +171,14 @@
                         <strong> Visite de contrôle </strong> : {{animal.get_latest_adoption.get_visite_controle_display}} <br>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Nombre de séances d'éducation </strong> : {{animal.get_latest_adoption.nb_sessions|default:" - "}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Prix d'une séance d'éducation </strong> : {{animal.get_latest_adoption.session_amount|default:" - "}} <br>
+                    </div>
+                </div>
                 {% if animal.get_latest_adoption.bon %}
                 <div class="alert alert-info m-2" role="alert">
                     {{ animal.get_latest_adoption.bon }}
