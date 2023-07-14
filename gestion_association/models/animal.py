@@ -354,6 +354,13 @@ class Animal(models.Model):
                 montant_total += vis.get_montant_par_animal()
         return f"{montant_total}"
 
+    def get_montant_seances_total(self):
+        total = 0
+        for training in self.trainings.all():
+            if training.amount is not None:
+                total += training.amount
+        return f"{total}"
+
 
 class Parrainage(models.Model):
     date_debut = models.DateField(verbose_name="Date de début")
