@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import render
 
+from gestion_association.models import OuiNonChoice
 from gestion_association.models.famille import Famille
 from gestion_association.models.person import Person
 
@@ -141,6 +142,15 @@ def get_fa_from_values(fa_values):
         # FA - Animaux FA
         elif value["id"] == "dropdown":
             famille.autres_animaux = value["text"]
+            animals = value["text"].lower()
+            if "chat" in animals:
+                famille.chats = OuiNonChoice.OUI.name
+            else:
+                famille.chats = OuiNonChoice.NON.name
+            if "chien" in animals:
+                famille.congeneres = OuiNonChoice.OUI.name
+            else:
+                famille.congeneres = OuiNonChoice.NON.name
         # FA - Composition du foyer
         elif value ["id"] == "texte2":
             famille.household = value["text"]
