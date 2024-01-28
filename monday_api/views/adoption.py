@@ -1,3 +1,4 @@
+from datetime import timedelta
 from decimal import Decimal
 from difflib import get_close_matches
 
@@ -10,6 +11,7 @@ from django.db import transaction
 from django.db.models.functions import Lower
 from django.shortcuts import render
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 
 from gestion_association.models import OuiNonChoice
 from gestion_association.models.adoption import Adoption
@@ -24,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 api_key = settings.MONDAY_KEY
 api_url = settings.MONDAY_URL
-headers = {"Authorization": api_key, "API-version": "2023-04"}
+headers = {"Authorization": api_key, "API-version": "2023-10"}
 
 
 @login_required
@@ -34,12 +36,11 @@ def check_api_adoptions(request):
 
     query = get_query()
     data = {'query': query}
-
     r = requests.post(url=api_url, json=data, headers=headers)
     adoptions = []
     errors = []
     # On récupère les lignes du tableau
-    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items"]
+    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items_page"]["items"]
     # Chaque ligne est une adoption
     for elt in content:
         adoption = get_adoption_from_values(elt)
@@ -65,7 +66,7 @@ def integrate_adoptions(request):
         raise Exception(r.content)
     imports = []
     # On récupère les lignes du tableau
-    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items"]
+    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items_page"]["items"]
     logger.info("DEBUT Import d'adoptions")
     # Chaque ligne est une adoption
     for elt in content:
@@ -78,6 +79,9 @@ def integrate_adoptions(request):
                 elif adoption:
                     adoption.pre_visite = OuiNonChoice.NON.name
                     adoption.visite_controle = OuiNonChoice.NON.name
+                    today = timezone.now().date()
+                    two_months = today + timedelta(days=2 * 30)
+                    adoption.date_visite = two_months
                     adoption.adoptant.save()
                     adoption.animal.save()
                     adoption.save()
@@ -98,18 +102,17 @@ def integrate_adoptions(request):
 def get_query():
     return 'query { boards(ids: [3101910912]) {\
     groups(ids: ["1660740380_cn_reponses_adoptio"]) {\
-      items {\
+      items_page { items {\
         id\
         name\
         column_values(ids: ["statut", "nom___pr_nom","texte8","t_l_phone", "adresse_postale__n___rue_",\
         "code_postal", "ville", "adresse_e_mail"\
          ]) {\
-          title\
           id\
           value\
           text\
         }\
-      }\
+      } }\
     }\
   } }'
 

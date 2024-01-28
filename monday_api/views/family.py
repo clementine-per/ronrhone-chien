@@ -1,4 +1,5 @@
 import json
+import sys
 
 import requests
 from django.conf import settings
@@ -7,12 +8,12 @@ from django.db import transaction
 from django.shortcuts import render
 
 from gestion_association.models import OuiNonChoice
-from gestion_association.models.famille import Famille
+from gestion_association.models.famille import Famille, StatutFamille
 from gestion_association.models.person import Person
 
 api_key = settings.MONDAY_KEY
 api_url = settings.MONDAY_URL
-headers = {"Authorization": api_key, "API-version": "2023-04"}
+headers = {"Authorization": api_key, "API-version": "2023-10"}
 
 
 @login_required()
@@ -24,9 +25,11 @@ def check_api_fa(request):
     data = {'query': query}
 
     r = requests.post(url=api_url, json=data, headers=headers)
+    print(json.loads(r.content))
+    sys.stdout.flush()
     familles = []
     # On récupère les lignes du tableau
-    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items"]
+    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items_page"]["items"]
     # Chaque ligne est une famille d'accueil
     for fa in content:
         famille = get_fa_from_values(fa)
@@ -49,7 +52,7 @@ def integrate_fa(request):
         raise Exception(r.content)
     imports = []
     # On récupère les lignes du tableau
-    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items"]
+    content = json.loads(r.content)["data"]["boards"][0]["groups"][0]["items_page"]["items"]
     # Chaque ligne est une famille d'accueil
     for fa in content:
         try:
@@ -74,18 +77,17 @@ def integrate_fa(request):
 def get_query():
     return 'query { boards(ids: [3379463594]) {\
     groups(ids: ["1665848993_p_le_chiens_questio"]) {\
-      items {\
+      items_page { items {\
         id\
         name\
         column_values(ids: ["statut96", "s_lection_multiple","s_lection_multiple1", \
         "dropdown", "texte", "t_l_phone", "e_mail", "long_texte4", "status",\
-         "texte3", "texte2", "texte1", "texte5", "texte8","texte9", s_lection_unique3]) {\
-          title\
+         "texte3", "texte2", "texte1", "texte5", "texte8","texte9", "s_lection_unique3"]) {\
           id\
           value\
           text\
         }\
-      }\
+      } }\
     }\
   } }'
 
@@ -165,5 +167,6 @@ def get_fa_from_values(fa_values):
             famille.house = value["text"]
 
     personne.is_famille = True
+    famille.statut = StatutFamille.DISPONIBLE.name
     famille.personne = personne
     return famille
