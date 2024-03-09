@@ -2,6 +2,7 @@ from django.urls import path
 
 from monday_api.views import index
 from monday_api.views.adoption import check_api_adoptions, integrate_adoptions
+from monday_api.views.animal import check_api_animals, integrate_animals
 from monday_api.views.family import check_api_fa, integrate_fa
 
 urlpatterns = [
@@ -11,4 +12,6 @@ urlpatterns = [
     path("fa-import", integrate_fa, name="integrate_fa"),
     path("adoptions-check", check_api_adoptions, name="check_api_adoptions"),
     path("adoptions-import", integrate_adoptions, name="integrate_adoptions"),
+    path("animals-check", check_api_animals, name="check_api_animals"),
+    path("animals-import", integrate_animals, name="integrate_animals"),
 ]

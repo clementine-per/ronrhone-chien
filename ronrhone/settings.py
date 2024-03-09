@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "import_export",
     "corsheaders",
+    "contract",
+    "monday_api",
     "gestion_association",
 ]
 
@@ -122,6 +124,7 @@ LOGIN_REDIRECT_URL = "accueil"
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, "/templates/")
 
@@ -129,3 +132,6 @@ LANGUAGE_CODE = "fr"
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 CORS_ALLOW_CREDENTIALS = True
+
+MONDAY_KEY = os.getenv("MONDAY_KEY")
+MONDAY_URL = "https://api.monday.com/v2"

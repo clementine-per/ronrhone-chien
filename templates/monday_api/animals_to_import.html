@@ -1,0 +1,54 @@
+{% extends "gestion_association/base.html" %}
+{% load tag %}
+{% block content %}
+<h1 class="p-4"> Import des prises en charge depuis Monday : {{nb_results}} résultat(s)</h1>
+{% for error in errors %}
+{{error}} <br>
+{% endfor %}
+<div class="table-responsive-sm p-4">
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col" style="width:15%;">Ancien propriétaire</th>
+            <th scope="col">Coordonnées</th>
+            <th scope="col">Animal</th>
+            <th scope="col">Informations</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for animal in animals %}
+        <tr class="table-info">
+            <td>{{animal.ancien_proprio}}</td>
+            {% if animal.ancien_proprio.pk %}
+                <td>Adoptant déjà en base</td>
+            {% else %}
+            <td>
+                {{animal.ancien_proprio.adresse}} </br>
+                {{animal.ancien_proprio.code_postal}} {{animal.ancien_proprio.ville}} </br>
+                {{animal.ancien_proprio.telephone}} </br>
+                {{animal.ancien_proprio.email}}
+            </td>
+            {% endif %}
+            <td>
+                {{animal}} </br>
+                {{animal.get_sexe_display}} </br>
+                {{animal.race}} </br>
+                {{animal.identification}} </br>
+            </td>
+            <td>
+                Commentaire : {{animal.commentaire}} </br>
+                Circonstances d'abandon : {{animal.circonstances}} </br>
+
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'integrate_animals' %}" class="float-right btn btn-success m-4"
+        type="submit" onclick="return confirm('Etes vous sûr(e) de vouloir importer ces prises en charge?');">
+    Confirmer l'import
+</a>
+<a href="{% url 'accueil' %}" class="float-right btn btn-outline-danger m-4"> Annuler </a>
+
+{% endblock %}
