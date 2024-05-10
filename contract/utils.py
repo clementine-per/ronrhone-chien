@@ -82,36 +82,6 @@ def personal_infos(p, animal):
     p.drawString(8 * cm, 18.9 * cm, f"- Adresse e-mail : {animal.adoptant.email}")
     p.drawString(2 * cm, 18.1 * cm, f"- Profession : {animal.adoptant.profession}")
 
-    # Checkbox
-    styleSquare = ParagraphStyle(
-        name="Style",
-        borderWidth=1,
-        borderColor="#000000",
-        borderPadding=(0.2 * cm, 0.1 * cm, 0.2 * cm, 0.1 * cm),
-    )
-    para = Paragraph(" ", style=styleSquare)
-    para.wrap(0.2 * cm, 1 * cm)
-    para.drawOn(p, 2.2 * cm, 17.5 * cm)
-
-    p.setFont("Helvetica", 0.4 * cm)
-    para = Paragraph("Moi, l'adoptant, déclare consentir à ce que l'Association Ron'Rhône transmette "
-                     "ce contrat d'adoption à la Fondation Capellino/Almo Nature, dans le cadre "
-                     "de la bonne mise en œuvre du projet Companion Animal For Life, "
-                     "dont l’association est partenaire et uniquement dans ce cadre."
-                     "<br/>Plus d’information sur www.companionanimalforlife.org ou à "
-                     "partir de ce QR code")
-    para.wrap(11 * cm, 15 * cm)
-    para.drawOn(p, 3 * cm, 14.8 * cm)
-    # QR code
-    p.drawImage(
-        f"{settings.STATIC_ROOT}/img/QR.jpg",
-        15 * cm,
-        14.6 * cm,
-        width=3.6 * cm,
-        height=3.6 * cm,
-        mask="auto",
-    )
-
 
 def infos_animal(p, animal):
     para = Paragraph("{} <br/>" \
