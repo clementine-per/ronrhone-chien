@@ -19,6 +19,7 @@ class TypeVisiteVetoChoice(Enum):
     AUTRE = "Autre"
     CHIRURGIE = "Chirurgie"
     URGENCE = "Urgence"
+    OSTEO = "Ostéopathie"
 
 
 class VisiteMedicale(models.Model):

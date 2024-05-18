@@ -19,6 +19,7 @@ class AdoptionCreateFormNoAdoptant(ModelForm):
             "date",
             "acompte_verse",
             "nb_sessions",
+            "educateur",
             "session_amount",
             "montant",
             "montant_restant",
@@ -33,6 +34,8 @@ class AdoptionCreateFormNoAdoptant(ModelForm):
         self.fields['date'].widget.attrs['class'] = 'datePicker'
         self.fields['date_visite'].widget.attrs['class'] = 'datePicker'
         self.fields["personne_visite"].queryset = Person.objects.filter(is_benevole=True).filter(inactif=False).order_by('nom')
+        self.fields["educateur"].queryset = Person.objects.filter(is_educ=True).filter(
+            inactif=False).order_by('nom')
 
 
 class AdoptionSearchForm(Form):
@@ -88,6 +91,7 @@ class AdoptionCreateForm(ModelForm):
             "acompte_verse",
             "adoptant",
             "nb_sessions",
+            "educateur",
             "session_amount",
             "montant",
             "montant_restant",
@@ -100,6 +104,8 @@ class AdoptionCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["personne_visite"].queryset = Person.objects.filter(is_benevole=True).filter(inactif=False).order_by('nom')
+        self.fields["educateur"].queryset = Person.objects.filter(is_educ=True).filter(
+            inactif=False).order_by('nom')
         self.fields['date'].widget.attrs['class'] = 'datePicker'
         self.fields['date_visite'].widget.attrs['class'] = 'datePicker'
 
@@ -113,6 +119,7 @@ class AdoptionFromUserForm(ModelForm):
             "acompte_verse",
             "animal",
             "nb_sessions",
+            "educateur",
             "session_amount",
             "montant",
             "montant_restant",
@@ -126,6 +133,8 @@ class AdoptionFromUserForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["animal"].queryset = Animal.objects.filter(inactif=False).filter(statut=StatutAnimal.A_ADOPTER.name)
         self.fields["personne_visite"].queryset = Person.objects.filter(is_benevole=True).filter(inactif=False).order_by('nom')
+        self.fields["educateur"].queryset = Person.objects.filter(is_educ=True).filter(
+            inactif=False).order_by('nom')
         self.fields['date'].widget.attrs['class'] = 'datePicker'
         self.fields['date_visite'].widget.attrs['class'] = 'datePicker'
 
@@ -137,6 +146,7 @@ class AdoptionUpdateForm(ModelForm):
             "date",
             "acompte_verse",
             "nb_sessions",
+            "educateur",
             "session_amount",
             "montant",
             "montant_restant",
@@ -149,6 +159,8 @@ class AdoptionUpdateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["personne_visite"].queryset = Person.objects.filter(is_benevole=True).filter(inactif=False).order_by('nom')
+        self.fields["educateur"].queryset = Person.objects.filter(is_educ=True).filter(
+            inactif=False).order_by('nom')
         self.fields['date'].widget.attrs['class'] = 'datePicker'
         self.fields['date_visite'].widget.attrs['class'] = 'datePicker'
 

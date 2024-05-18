@@ -179,6 +179,11 @@
                         <strong> Prix d'une séance d'éducation </strong> : {{animal.get_latest_adoption.session_amount|default:" - "}} <br>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Educateur effectuant les séances </strong> : {{animal.get_latest_adoption.educateur|default:" - "}} <br>
+                    </div>
+                </div>
                 {% if animal.get_latest_adoption.bon %}
                 <div class="alert alert-info m-2" role="alert">
                     {{ animal.get_latest_adoption.bon }}

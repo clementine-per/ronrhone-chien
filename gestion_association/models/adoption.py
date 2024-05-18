@@ -88,6 +88,14 @@ class Adoption(models.Model):
         blank=True,
         verbose_name="Nombre de séances d'éducation",
     )
+    educateur = models.ForeignKey(
+        Person,
+        verbose_name="Educateur effectuant les sessions",
+        on_delete=models.PROTECT,
+        related_name="educateurs",
+        null=True,
+        blank=True,
+    )
 
     def save(self, *args, **kwargs):
         # Maj statut lors de la création de l'adoption
