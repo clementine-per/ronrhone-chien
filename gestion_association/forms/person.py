@@ -22,6 +22,7 @@ class PersonForm(ModelForm):
         fields = (
             "prenom",
             "nom",
+            "nom_pro",
             "email",
             "adresse",
             "code_postal",

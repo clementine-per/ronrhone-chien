@@ -20,6 +20,7 @@ class Person(models.Model):
     date_mise_a_jour = models.DateField(verbose_name="Date de mise à jour", auto_now=True)
     prenom = models.CharField(max_length=30)
     nom = models.CharField(max_length=150)
+    nom_pro = models.CharField(max_length=150, blank=True, verbose_name="Nom professionnel")
     nom_prenom_key = models.CharField(max_length=150, blank=True, unique=True)
     email = models.EmailField(max_length=150)
     adresse = models.CharField(max_length=500)
@@ -72,6 +73,8 @@ class Person(models.Model):
         return f"{self.adresse} \n {self.code_postal} {self.ville}"
 
     def __str__(self):
+        if self.nom_pro:
+            return f"{self.nom_pro} - {self.prenom} {self.nom}"
         return f"{self.prenom} {self.nom}"
 
     def has_role(self):

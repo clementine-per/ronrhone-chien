@@ -19,6 +19,13 @@
                         <strong> Prénom </strong> : {{person.prenom}} <br>
                     </div>
                 </div>
+                {% if person.nom_pro %}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Nom professionnel </strong> : {{person.nom_pro}} <br>
+                    </div>
+                </div>
+                {% endif %}
                 <div class="row">
                     <div class="col-sm-6">
                         <strong> Adresse mail </strong> : {{person.email}} <br>
