@@ -325,7 +325,11 @@
                         <tr class="table-info">
                             <td>{{training.date|date:"d/m/Y"}}</td>
                             <td>{{training.get_type_training_display}}</td>
+                            {% if training.trainer_person %}
+                             <td>{{training.trainer_person}} </td>
+                            {% else %}
                             <td>{{training.trainer}} </td>
+                            {% endif %}
                             <td>{{training.amount|default:"-"}} </td>
                             <td>{{training.comment}} </td>
                             <td>

@@ -3,12 +3,14 @@ from django.db import models
 from enum import Enum
 
 from gestion_association.models.animal import Animal
+from gestion_association.models.person import Person
 
 
 class TrainingTypeChoice(Enum):
     BILAN = "Bilan comportemental"
     PRE_SESSION = "Séance d'éducation"
     POST_SESSION = "Séance post adoption"
+    GARDERIE = "Garderie canine"
 
 
 class TrainingSession(models.Model):
@@ -22,11 +24,15 @@ class TrainingSession(models.Model):
         choices=[(tag.name, tag.value) for tag in TrainingTypeChoice],
     )
     trainer = models.CharField(max_length=150, blank=True, verbose_name="Educateur")
+    trainer_person = models.ForeignKey(Person, on_delete=models.PROTECT, related_name="trainings", verbose_name="Educateur",
+                                       null=True,
+                                       blank=True,
+                                       )
     comment = models.CharField(max_length=2000, blank=True, verbose_name="Commentaire")
     amount = models.DecimalField(
         verbose_name="Montant", max_digits=7, decimal_places=2, blank=True, null=True
     )
-    animal = animal = models.ForeignKey(Animal, on_delete=models.PROTECT, related_name="trainings")
+    animal = models.ForeignKey(Animal, on_delete=models.PROTECT, related_name="trainings")
 
     class Meta:
         ordering = ["-date"]
