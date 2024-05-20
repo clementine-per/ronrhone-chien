@@ -320,8 +320,6 @@ def seance_price(request):
     educateur = Person.objects.get(id=request.POST["educateur"])
     if educateur.tarif_seance:
         montant = educateur.tarif_seance
-    print(montant)
-    sys.stdout.flush()
     return JsonResponse(
         {
             "montant_seance": montant,

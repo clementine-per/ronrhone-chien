@@ -1,11 +1,15 @@
+import sys
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 
 from gestion_association.forms.training_session import TrainingSessionForm
 from gestion_association.models.animal import Animal
+from gestion_association.models.person import Person
 from gestion_association.models.training_session import TrainingSession
 
 
@@ -38,3 +42,23 @@ def create_training_from_animal(request, pk):
         form.fields["animal"].initial = animal
 
     return render(request, "gestion_association/training_session/training_session_form.html", locals())
+
+@login_required
+def training_session_price(request):
+    montant = ""
+    if request.POST["trainer_person"]:
+        educateur = Person.objects.get(id=request.POST["trainer_person"])
+        type = request.POST["type_training"]
+        if type and type == "BILAN" and educateur.tarif_bilan:
+            return JsonResponse(
+                {
+                    "montant_seance": educateur.tarif_bilan,
+                }
+            )
+        if educateur.tarif_seance:
+            montant = educateur.tarif_seance
+    return JsonResponse(
+        {
+            "montant_seance": montant,
+        }
+    )

@@ -211,6 +211,11 @@ urlpatterns = [
     # Training sessions
     path("training/update/<int:pk>/", training_session.UpdateTrainingSession.as_view(), name="update_training"),
     path("training/create_animal/<int:pk>/", training_session.create_training_from_animal, name="create_training_animal"),
+    path(
+        "ajax/training_session_price/",
+        training_session.training_session_price,
+        name="training_session_price",
+    ),
     # Paramétrages
     path("parametrage", home.parametrage, name="parametrage"),
 ]

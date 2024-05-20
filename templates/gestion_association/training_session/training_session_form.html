@@ -1,9 +1,11 @@
 {% extends "gestion_association/base.html" %}
+{% load static %}
 {% block content %}
 
 
-<form method="post" action="">
+<form method="post" action="" id="trainingForm" data-seance-price-url="{% url 'training_session_price' %}">
     {% csrf_token %}
+    {{ form.media }}
     {{ form.as_p }}
     <div class="row">
         <div class="col">
@@ -18,4 +20,8 @@
    	</div>
    </div>
 </form>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/training_session.js' %}"></script>
 {% endblock %}
