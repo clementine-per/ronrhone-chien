@@ -262,7 +262,6 @@ def create_bon_sterilisation(request, pk):
 
     return render(request, "gestion_association/adoption/bon_form.html", locals())
 
-
 def get_montant_adoption(animal):
     # Méthode récupérant le montant de l'adoption à l'initialisation du formulaire
 
@@ -281,7 +280,7 @@ def get_montant_adoption(animal):
         return tarif_applicable.montant
     return None
 
-
+@login_required
 def calcul_montant_restant(request, pk):
     animal = Animal.objects.get(id=pk)
     # Méthode de calcul dynamique du montant restant en fonction de l'acompte
@@ -315,7 +314,21 @@ def calcul_montant_restant(request, pk):
         }
     )
 
+@login_required
+def seance_price(request):
+    montant = ""
+    educateur = Person.objects.get(id=request.POST["educateur"])
+    if educateur.tarif_seance:
+        montant = educateur.tarif_seance
+    print(montant)
+    sys.stdout.flush()
+    return JsonResponse(
+        {
+            "montant_seance": montant,
+        }
+    )
 
+@login_required
 def calcul_montant_sterilisation(request, pk):
     animal = Animal.objects.get(id=pk)
     montant_adoption = Decimal(0)

@@ -127,6 +127,11 @@ urlpatterns = [
         name="calcul_montant_restant",
     ),
     path(
+        "ajax/seance_price/",
+        adoption.seance_price,
+        name="seance_price",
+    ),
+    path(
         "ajax/calcul_montant_sterilisation/<int:pk>/",
         adoption.calcul_montant_sterilisation,
         name="calcul_montant_sterilisation",

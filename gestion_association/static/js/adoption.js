@@ -1,6 +1,7 @@
 $("#adoptionForm").on("change", "*", function (event) {
   var champs_restant = ["acompte_verse", "show", "nb_sessions", "session_amount"];
   var champ_sterilisation = ["show"];
+  var champ_educateur = ["educateur"];
   if (champs_restant.indexOf(event.target.name) != -1) {
     var url = $("#adoptionForm").data("calcul-montant-url");
     $.post(url, $("#adoptionForm").serialize(), function (data) {
@@ -13,6 +14,12 @@ $("#adoptionForm").on("change", "*", function (event) {
     $.post(url, $("#adoptionForm").serialize(), function (data) {
       $("#id_montant").val(data["montant"]);
       $("#id_montant_restant").val(data["montant_restant"]);
+    });
+  }
+  if (champ_educateur.indexOf(event.target.name) != -1) {
+    var url = $("#adoptionForm").data("seance-price-url");
+    $.post(url, $("#adoptionForm").serialize(), function (data) {
+      $("#id_session_amount").val(data["montant_seance"]);
     });
   }
 });
