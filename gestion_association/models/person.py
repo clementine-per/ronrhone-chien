@@ -45,8 +45,15 @@ class Person(models.Model):
     is_parrain = models.BooleanField(default=False, verbose_name="Parrainage")
     is_adherent = models.BooleanField(default=False, verbose_name="Adhérent(e)")
     is_ancien_proprio = models.BooleanField(default=False, verbose_name="Ancien propriétaire")
-    tarif_horaire = models.DecimalField(
-        verbose_name="Tarif horaire",
+    tarif_bilan = models.DecimalField(
+        verbose_name="Prix d'un bilan comportemental",
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    tarif_seance = models.DecimalField(
+        verbose_name="Prix d'une séance d'éducation",
         max_digits=5,
         decimal_places=2,
         null=True,
@@ -78,7 +85,7 @@ class Person(models.Model):
         return f"{self.prenom} {self.nom}"
 
     def has_role(self):
-        return self.is_famille or self.is_benevole or self.is_adoptante \
+        return self.is_famille or self.is_benevole or self.is_adoptante or self.is_educ \
                or self.is_ancien_proprio or self.is_parrain or self.is_adherent
 
 

@@ -54,7 +54,7 @@ class BenevoleForm(ModelForm):
 class EducateurForm(ModelForm):
     class Meta:
         model = Person
-        fields = ("tarif_horaire","commentaire_educ",)
+        fields = ("tarif_bilan","tarif_seance","commentaire_educ",)
 
 
 class AdhesionForm(ModelForm):

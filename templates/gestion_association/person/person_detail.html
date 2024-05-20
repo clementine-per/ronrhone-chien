@@ -110,7 +110,9 @@
                     : {{person.commentaire_educ}}
                     {% endif %}
                     <br>
-                    Tarif : {{person.tarif_horaire|default:"-"}}
+                    Tarif séance : {{person.tarif_seance|default:"-"}}
+                    <br>
+                    Tarif bilan : {{person.tarif_bilan|default:"-"}}
 
                 </div>
                 {% endif %}
