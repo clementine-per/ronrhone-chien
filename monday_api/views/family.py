@@ -93,9 +93,9 @@ def get_query():
 
 
 def get_modify_status_query(item_id):
-    # statut96 correspond à la colonne statut et l'index 3 au statut "Enregistré dans l'appli"
+    # statut96 correspond à la colonne statut et l'index 3 au statut "Disponible actuellement"
     return 'mutation { change_column_value(item_id:' +item_id +', board_id: 3379463594,\
-     column_id: "statut96", value: "{\\\"index\\\":3}") {id\
+     column_id: "statut96", value: "{\\\"index\\\":8}") {id\
   }\
 }'
 

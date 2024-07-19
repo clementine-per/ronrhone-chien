@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 from .models.animal import Animal
 from .models.famille import Famille
 from .models.person import Person
-from .views import adoption, animal, famille, home, person, visite_medicale, training_session
+from .views import adoption, animal, famille, home, person, visite_medicale, training_session, order
 
 urlpatterns = [
     path("", home.index, name="accueil"),
@@ -216,6 +216,10 @@ urlpatterns = [
         training_session.training_session_price,
         name="training_session_price",
     ),
+    # Orders
+    path("order/update/<int:pk>/", order.UpdateOrder.as_view(), name="update_order"),
+    path("order/create_animal/<int:pk>/", order.create_order_from_animal,
+         name="create_order_animal"),
     # Paramétrages
     path("parametrage", home.parametrage, name="parametrage"),
 ]

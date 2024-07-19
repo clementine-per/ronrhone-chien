@@ -360,6 +360,58 @@
     </div>
 </div>
 
+<div class="row p-4">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                Commandes et achats
+            </div>
+            {% if animal.orders.all.count >= 1 %}
+            <div class="table-responsive-sm p-4">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Contenu</th>
+                            <th>Montant</th>
+                            <th scope="col">Commentaire</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in animal.orders.all %}
+                        <tr class="table-info">
+                            <td>{{order.date|date:"d/m/Y"}}</td>
+                             <td>{{order.content}} </td>
+                            <td>{{order.amount|default:"-"}} </td>
+                            <td>{{order.comment}} </td>
+                            <td>
+                                <a href= "{% url 'update_order' order.id %}" >
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="table-info">
+                                <td class="font-weight-bold">Montant Total des commandes</td>
+                                <td> </td>
+                                <td class="font-weight-bold">{{animal.get_montant_orders_total}} </td>
+                                <td></td>
+                                <td> </td>
+                            </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            <div class="text-right">
+                <a href= "{% url 'create_order_animal' animal.id %}" class="m-2 float-right btn btn-info">
+                    Déclarer un achat/une commande</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="row p-4">
     <div class="col-sm-12 mt-3">

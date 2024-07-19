@@ -362,6 +362,13 @@ class Animal(models.Model):
                 total += training.amount
         return f"{total}"
 
+    def get_montant_orders_total(self):
+        total = 0
+        for order in self.orders.all():
+            if order.amount is not None:
+                total += order.amount
+        return f"{total}"
+
 
 class Parrainage(models.Model):
     date_debut = models.DateField(verbose_name="Date de début")
