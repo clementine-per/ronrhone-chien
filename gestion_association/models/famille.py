@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 
-from gestion_association.models import OuiNonChoice
+from gestion_association.models import OuiNonChoice, PerimetreChoice
 from gestion_association.models.person import Person
 
 
@@ -76,6 +76,19 @@ class Famille(models.Model):
         verbose_name="Ok chats",
         choices=[(tag.name, tag.value) for tag in OuiNonNullChoice],
     )
+    perimetre = models.CharField(
+        max_length=30,
+        default="UN",
+        verbose_name="Périmètre de gestion",
+        choices=[(tag.name, tag.value) for tag in PerimetreChoice],
+    )
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding:
+            for animal in self.animal_set.all():
+                animal.perimetre = self.perimetre
+                animal.save()
+        return super().save(*args, **kwargs)
 
     def get_nb_places_str(self):
         count = self.nb_places
@@ -187,6 +200,7 @@ class Accueil(models.Model):
                     accueil.famille.save()
             #On change la FA de l'animal
             self.animal.famille = self.famille
+            self.animal.perimetre = self.famille.perimetre
             self.animal.save()
             #On passe le statut FA à occupé
             self.famille.statut = StatutFamille.OCCUPE.name

@@ -1,3 +1,6 @@
+import smtplib
+import ssl
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -27,6 +30,7 @@ class UpdateTrainingSession(LoginRequiredMixin, UpdateView):
 
 @login_required
 def create_training_from_animal(request, pk):
+
     animal = Animal.objects.get(id=pk)
     title = "Session d'éducation pour " + animal.nom
     if request.method == "POST":

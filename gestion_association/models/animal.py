@@ -5,7 +5,7 @@ from enum import Enum
 from django.db import models
 from django.utils import timezone
 
-from gestion_association.models import OuiNonChoice, TypeChoice
+from gestion_association.models import OuiNonChoice, TypeChoice, PerimetreChoice
 from gestion_association.models.famille import Famille
 from gestion_association.models.person import Person
 
@@ -264,6 +264,12 @@ class Animal(models.Model):
         blank=True,
         verbose_name="Tranche d'âge",
         choices=[(tag.name, tag.value) for tag in TrancheAge],
+    )
+    perimetre = models.CharField(
+        max_length=30,
+        default="UN",
+        verbose_name="Périmètre de gestion",
+        choices=[(tag.name, tag.value) for tag in PerimetreChoice],
     )
     famille = models.ForeignKey(Famille, on_delete=models.PROTECT, null=True, blank=True)
 

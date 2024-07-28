@@ -72,6 +72,18 @@ i.INACTIVE{
     color:#e6331c;
 }
 
+i.UN{
+    color:#ff69b4;
+}
+
+i.DEUX{
+    color:#1725ff;
+}
+
+i.TROIS{
+    color:#098800;
+}
+
 /* Affichage des erreurs de formulaire */
 ul.errorlist {
     margin: 0;
