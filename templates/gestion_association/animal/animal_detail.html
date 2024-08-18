@@ -215,7 +215,7 @@
                         <strong> Type de vaccin </strong> : {{animal.get_type_vaccin_display}} <br>
                     </div>
                     <div class="col">
-                        <strong> Date prochain vaccin </strong> : {{animal.date_prochain_vaccin|date:"d/m/Y"|default:" - "}} <br>
+                        <strong> Vaccin rage </strong> : {{animal.get_vaccin_rage_display}} <br>
                     </div>
                 </div>
                 <div class="row">
@@ -228,7 +228,10 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <strong> Vaccin rage </strong> : {{animal.get_vaccin_rage_display}} <br>
+                        <strong> Date dernier vaccin </strong> : {{animal.date_dernier_vaccin|date:"d/m/Y"|default:" - "}} <br>
+                    </div>
+                    <div class="col">
+                        <strong> Date prochain vaccin </strong> : {{animal.date_prochain_vaccin|date:"d/m/Y"|default:" - "}} <br>
                     </div>
                 </div>
                 <div class="row">

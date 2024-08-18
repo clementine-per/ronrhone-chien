@@ -3,6 +3,7 @@ from datetime import datetime
 import requests
 import json
 
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -94,7 +95,7 @@ def get_query():
         column_values(ids: ["statut", "texte78","status","texte8", "chiffre5",\
         "texte", "texte4","t_l_phone","e_mail", "lieu","texte37", "date",\
         "statut_19", "texte3","statut_124","statut_175", "statut_17",\
-        "long_texte_5"\
+        "long_texte_5","date_18__1", "s_lection_unique5__1"\
          ]) {\
           id\
           value\
@@ -136,22 +137,35 @@ def get_animal_from_values(values):
         # Date de naissance
         if value["id"] == "date":
             animal.date_naissance = datetime.strptime(value["text"], '%Y-%m-%d').date()
+        # Date de vaccin
+        if value["id"] == "date_18__1":
+            if value["text"]:
+                animal.primo_vaccine = OuiNonChoice.OUI.name
+                animal.vaccin_ok = OuiNonChoice.OUI.name
+                date_vaccin = datetime.strptime(value["text"], '%Y-%m-%d').date()
+                animal.date_dernier_vaccin = date_vaccin
+                animal.date_prochain_vaccin = date_vaccin + relativedelta(years=3)
         # Congénères et chats
-        elif value["id"] == "statut_19":
+        elif value["id"] == "statut_19" and value["text"]:
             if "chats" in value["text"].lower():
                 preference.chats = OuiNonChoice.OUI.name
-            else :
-                preference.chats = OuiNonChoice.OUI.name
+            else:
+                preference.chats = OuiNonChoice.NON.name
             if "chiens" in value["text"].lower():
                 preference.congeneres = OuiNonChoice.OUI.name
             else :
-                preference.congeneres = OuiNonChoice.OUI.name
-        # Temps d'absence TODO
+                preference.congeneres = OuiNonChoice.NON.name
+        # Sterilisation
+        elif value["id"] == "s_lection_unique5__1":
+            if not value["text"] or "non" in value["text"].lower():
+                animal.sterilise = OuiNonChoice.NON.name
+            else:
+                animal.sterilise = OuiNonChoice.OUI.name
         # Genre
         elif value["id"] == "statut_124":
             if value["text"] == "Femelle":
                 animal.sexe = SexeChoice.F.name
-            elif value["text"] == "Femelle":
+            elif value["text"] == "Mâle":
                 animal.sexe = SexeChoice.M.name
             else:
                 animal.sexe = SexeChoice.NI.name

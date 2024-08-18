@@ -169,6 +169,7 @@ class AnimalSanteUpdateForm(ModelForm):
             "primo_vaccine",
             "vaccin_ok",
             "vaccin_rage",
+            "date_dernier_vaccin",
             "date_prochain_vaccin",
             "date_parasite",
             "date_vermifuge",
