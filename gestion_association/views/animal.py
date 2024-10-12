@@ -44,7 +44,6 @@ def search_animal(request):
         form = AnimalSearchForm()
         nom_form = request.GET.get("nom", "")
         identification_form = request.GET.get("identification", "")
-        perimetre_form = request.GET.get("perimetre", "")
         sterilise_form = request.GET.get("sterilise", "")
         sans_fa_form = request.GET.get("sans_fa", "")
         statuts_form = request.GET.getlist("statuts","")
@@ -72,9 +71,6 @@ def search_animal(request):
         if nom_form:
             animals = animals.filter(nom__icontains=nom_form)
             form.fields["nom"].initial = nom_form
-        if perimetre_form:
-            animals = animals.filter(perimetre=perimetre_form)
-            form.fields["perimetre"].initial = perimetre_form
         if identification_form:
             animals = animals.filter(identification__icontains=identification_form)
             form.fields["identification"].initial = identification_form

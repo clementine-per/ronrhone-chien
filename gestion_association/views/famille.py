@@ -66,7 +66,6 @@ def famille_list(request):
         places_dispos_form = request.GET.get("places_dispos", "")
         exterieur_form = request.GET.get("exterieur", "")
         statut_form = request.GET.get("statut", "")
-        perimetre_form = request.GET.get("perimetre", "")
         vide_form = request.GET.get("vide", "")
         date_presence_min = request.GET.get("date_presence_min", "")
         date_presence_max = request.GET.get("date_presence_max", "")
@@ -87,9 +86,6 @@ def famille_list(request):
         if statut_form:
             famille_list = famille_list.filter(statut=statut_form)
             form.fields["statut"].initial = statut_form
-        if perimetre_form:
-            famille_list = famille_list.filter(perimetre=perimetre_form)
-            form.fields["perimetre"].initial = perimetre_form
         if vide_form:
             form.fields["vide"].initial = vide_form
             if vide_form == 'NON':
