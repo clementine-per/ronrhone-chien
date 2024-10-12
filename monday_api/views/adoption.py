@@ -102,7 +102,8 @@ def integrate_adoptions(request):
 def get_query():
     return 'query { boards(ids: [3101910912]) {\
     groups(ids: ["1660740380_cn_reponses_adoptio"]) {\
-      items_page { items {\
+    items_page (limit: 15, query_params: {rules: [{column_id: "statut", compare_value: [0]}], operator: and})\
+      { items {\
         id\
         name\
         column_values(ids: ["statut", "nom___pr_nom","texte8","t_l_phone", "adresse_postale__n___rue_",\
@@ -132,12 +133,6 @@ def get_adoption_from_values(adoption_values):
     for value in adoption_columns:
         # Statut
         if value["id"] == "statut":
-            # On ne veux que les adoptions dans un certain statut
-            if value["text"] == "Acompte ok":
-                adoption.acompte_verse = OuiNonChoice.OUI.name
-            else:
-                return None
-
             animal_name = adoption_values["name"]
             # close_match is case sensitive
             corresponding_matches = get_close_matches(animal_name.lower(), get_animal_names(), 2, 0.7)
