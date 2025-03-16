@@ -25,4 +25,4 @@ class TrainingSessionForm(ModelForm):
         self.fields["trainer_person"].queryset = Person.objects.filter(is_educ=True).filter(
             inactif=False).order_by('nom')
         self.fields['date'].widget.attrs['class'] = 'datePicker'
-        self.fields['animal'].queryset = Animal.objects.filter(inactif=False).filter(statut__in=statuts_association_adopte)
+        self.fields['animal'].queryset = Animal.objects.filter(inactif=False)
