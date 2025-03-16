@@ -97,6 +97,9 @@ class Adoption(models.Model):
         blank=True,
     )
 
+    def __str__(self):
+        return f"Adoption de {self.animal} par {self.adoptant}"
+
     def save(self, *args, **kwargs):
         # Maj statut lors de la création de l'adoption
         if self._state.adding:

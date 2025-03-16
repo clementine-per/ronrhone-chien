@@ -77,6 +77,11 @@ def integrate_adoptions(request):
                     imports.append("L'animal " + elt["name"] + " n'a pas été trouvé.")
                     logger.warning("L'animal " + elt["name"] + " n'a pas été trouvé.")
                 elif adoption:
+                    # Si il y avait une adoption précédente, on l'annule
+                    former_adoption = adoption.animal.get_latest_adoption()
+                    if former_adoption:
+                        former_adoption.annule = True
+                        former_adoption.save()
                     adoption.pre_visite = OuiNonChoice.NON.name
                     adoption.visite_controle = OuiNonChoice.NON.name
                     today = timezone.now().date()
