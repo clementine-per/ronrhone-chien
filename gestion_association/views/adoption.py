@@ -367,6 +367,10 @@ def save_adoption(adoption, animal, person, show_form, bon_form):
     # La personne devient adoptante
     person.is_adoptante = True
     person.save()
+    # Calcul du nombre de jours avant adoption
+    if adoption.date and animal.date_arrivee:
+        delta = adoption.date - animal.date_arrivee
+        adoption.nb_jours = delta.days
     # On rattache la personne à l'adoption
     adoption.adoptant = person
     adoption.animal = animal

@@ -5,10 +5,11 @@ from django.views.generic import DetailView
 from .models.animal import Animal
 from .models.famille import Famille
 from .models.person import Person
-from .views import adoption, animal, famille, home, person, visite_medicale, training_session, order
+from .views import adoption, animal, famille, home, person, visite_medicale, training_session, order, stats
 
 urlpatterns = [
     path("", home.index, name="accueil"),
+    path("stats", stats.index, name="stats"),
     # Animaux
     path("animals/", animal.search_animal, name="animals"),
     path("animals/create", animal.create_animal, name="create_animal"),
