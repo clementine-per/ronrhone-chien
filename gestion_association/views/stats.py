@@ -6,7 +6,11 @@ from django.shortcuts import render
 
 from django.utils.timezone import datetime
 
+from gestion_association.forms.stats import DureeAdoptionStatsForm
 from gestion_association.models.adoption import Adoption
+
+from django.db.models import F, ExpressionWrapper, IntegerField
+from django.db.models.functions import ExtractYear, ExtractMonth
 
 
 @login_required
@@ -23,6 +27,7 @@ def index(request):
     locale.setlocale(locale.LC_ALL, 'fr_FR')
     date = datetime.now()
 
+
     i = 1
     current = date.year
     past = date.year - 1
@@ -32,6 +37,36 @@ def index(request):
         data_adoptions_current.append(adoptions.filter(date__year=date.year).filter(date__month=i).count())
         data_adoptions_past.append(adoptions.filter(date__year=date.year - 1).filter(date__month=i).count())
         i += 1
+
+    # Prise en compte des filtres utilisateurs éventuels
+    if request.method == "POST":
+        adoption_duree_form = DureeAdoptionStatsForm(request.POST)
+        if adoption_duree_form.is_valid():
+            annee = adoption_duree_form.cleaned_data.get("annee")
+            age = adoption_duree_form.cleaned_data.get("age")
+            if annee:
+                adoptions = adoptions.filter(date__year=annee)
+            if age:
+                adoptions = adoptions.annotate(start_year=ExtractYear('animal__date_naissance'),
+                                   start_month=ExtractMonth('animal__date_naissance'),
+                                   end_year=ExtractYear('date'),
+                                   end_month=ExtractMonth('date'),
+                ).annotate(
+                    month_diff=ExpressionWrapper(
+                        (F('end_year') - F('start_year')) * 12 + (F('end_month') - F('start_month')),
+                        output_field=IntegerField()
+                    )
+                )
+                if age == "CHIOT":
+                    adoptions = adoptions.filter(month_diff__lt=6)
+                elif age == "ADULTE":
+                    adoptions = adoptions.filter(month_diff__gte=6).filter(month_diff__lt=96)
+                elif age == "SENIOR":
+                    adoptions = adoptions.filter(month_diff__gte=96)
+
+    else:
+        adoption_duree_form = DureeAdoptionStatsForm()
+
 
     # Partie Adoptions par durée
     labels_durees = ["Moins de 4 semaines", "1 à 2 mois", "2 à 5 mois", "Plus de 5 mois"]

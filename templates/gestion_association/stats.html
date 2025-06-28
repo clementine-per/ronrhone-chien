@@ -5,6 +5,13 @@
         <canvas id="adoptions-line-chart" ></canvas>
     </div>
     <div class="col-sm-6">
+        <form method="post" action="">
+                    {% csrf_token %}
+                    {{ adoption_duree_form.annee_tag }} {{ adoption_duree_form.annee }}
+                    {{ adoption_duree_form.age_tag }} {{ adoption_duree_form.age }}
+                    <br>
+                    
+                    <button type="submit" class="btn btn-info btn-sm">Calculer</button>
         <canvas id="adoptions-pie" ></canvas>
     </div>
 </div>
