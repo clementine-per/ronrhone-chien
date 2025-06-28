@@ -9,7 +9,7 @@ from django.utils.timezone import datetime
 from gestion_association.forms.stats import DureeAdoptionStatsForm
 from gestion_association.models.adoption import Adoption
 
-from django.db.models import F, ExpressionWrapper, IntegerField
+from django.db.models import F, ExpressionWrapper, IntegerField, Avg
 from django.db.models.functions import ExtractYear, ExtractMonth
 
 
@@ -76,6 +76,9 @@ def index(request):
     data_adoptions_duree.append(adoptions.filter(nb_jours__gte=28).filter(nb_jours__lt=60).count())
     data_adoptions_duree.append(adoptions.filter(nb_jours__gte=60).filter(nb_jours__lt=150).count())
     data_adoptions_duree.append(adoptions.filter(nb_jours__gte=150).count())
+
+    moyenne = adoptions.aggregate(moyenne=Avg('nb_jours'))
+    total_adoptions = adoptions.count()
 
 
     return render(request, "gestion_association/stats.html", locals())
