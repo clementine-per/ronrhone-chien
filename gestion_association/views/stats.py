@@ -13,6 +13,7 @@ from django.db.models import F, ExpressionWrapper, IntegerField, Avg, Sum, Q
 from django.db.models.functions import ExtractYear, ExtractMonth
 
 from gestion_association.models.animal import Animal
+from gestion_association.models.training_session import TrainingSession
 from gestion_association.models.visite_medicale import VisiteMedicale
 
 
@@ -85,6 +86,7 @@ def index(request):
 
     # Partie données financières
     visites = VisiteMedicale.objects.all()
+    trainings = TrainingSession.objects.all()
 
     adoptions_finance = Adoption.objects.filter(annule=False).exclude(montant=None)
     # Récupération de l'année saisie par l'utilisateur
@@ -96,14 +98,17 @@ def index(request):
             if annee:
                 adoptions_finance = adoptions_finance.filter(date__year=annee)
                 visites = visites.filter(date__year=annee)
+                trainings = trainings.filter(date__year=annee)
     else:
         annee_form = AnneeStatsForm()
     # Calcul du montant total des visites médicales
     montant_total_visites = visites.aggregate(montant_total=Sum('montant'))['montant_total'] or 0
+    # Calcul du montant total des séances d'éducation
+    montant_total_trainings = trainings.aggregate(montant_total=Sum('amount'))['montant_total'] or 0
     # Calcul du montant total des adoptions
     montant_total_adoptions = adoptions_finance.aggregate(montant_total=Sum('montant'))['montant_total'] or 0
     # Calcul résultat financier
-    resultat_financier = montant_total_adoptions - montant_total_visites
+    resultat_financier = montant_total_adoptions - montant_total_visites - montant_total_trainings
     # Moyenne du montant des visites médicales par animal et pour différents ages (age au moment de l'arrivée dans l'asso)
     chats = Animal.objects.annotate(start_year=ExtractYear('date_naissance'),
                                    start_month=ExtractMonth('date_naissance'),
@@ -140,14 +145,14 @@ def index(request):
         ).aggregate(montant_moyen=Avg('montant_total'))['montant_moyen'] or 0
 
     # Données pour graphique répartition par types de visites
-    labels_types = ["Soins groupés", "Vaccination seule", "Stérilisation seule", "Urgence et Chirurgie", "Osteopathie et consultations", "Autres"]
+    labels_types = ["Soins groupés", "Vaccination seule", "Stérilisation seule", "Urgence et Chirurgie", "Consultations", "Autres"]
     data_type_visites = []
     data_type_visites.append(visites.filter(type_visite__in=["PACK", "PACK_STE"]).count())
     data_type_visites.append(visites.filter(type_visite__in=["VAC_PRIMO", "VAC_RAPPEL"]).count())
     data_type_visites.append(visites.filter(type_visite__in=["STE"]).count())
     data_type_visites.append(visites.filter(type_visite__in=["URGENCE", "CHIRURGIE"]).count())
-    data_type_visites.append(visites.filter(type_visite__in=["OSTEO", "CONSULT"]).count())
-    data_type_visites.append(visites.filter(type_visite__in=["AUTRE","IDE"]).count())
+    data_type_visites.append(visites.filter(type_visite__in=["CONSULT"]).count())
+    data_type_visites.append(visites.filter(type_visite__in=["AUTRE","IDE", "OSTEO"]).count())
 
 
     return render(request, "gestion_association/stats.html", locals())
