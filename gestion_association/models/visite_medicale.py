@@ -37,6 +37,9 @@ class VisiteMedicale(models.Model):
     montant = models.DecimalField(
         verbose_name="Montant", max_digits=7, decimal_places=2, blank=True, null=True
     )
+    amount_animal = models.DecimalField(
+        verbose_name="Montant par animal", max_digits=7, decimal_places=2, blank=True, null=True
+    )
     animaux = models.ManyToManyField("Animal", related_name="visites")
 
     class Meta:
@@ -53,7 +56,11 @@ class VisiteMedicale(models.Model):
 
 
 @receiver(m2m_changed, sender=VisiteMedicale.animaux.through)
-def visite_medicale_save_action(sender, instance, **kwargs):
+def visite_medicale_save_action(sender, instance, action, **kwargs):
+    if action in ['post_add', 'post_remove', 'post_clear']:
+        if instance.montant:
+                instance.amount_animal = instance.montant / instance.animaux.count()
+                instance.save()
     # Instance est une visite médicale
     if instance.type_visite in (
             TypeVisiteVetoChoice.VAC_PRIMO.name,

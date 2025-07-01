@@ -35,3 +35,10 @@ class DureeAdoptionStatsForm(Form):
         widget=Select(),
         required=False,
     )
+
+class AnneeStatsForm(Form):
+    annee = ChoiceField(
+        choices=BLANK_CHOICE_DASH + [(tag.value, tag.value) for tag in AnneeChoice],
+        widget=Select(),
+        required=False,
+    )

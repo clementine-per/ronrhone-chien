@@ -20,6 +20,25 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-sm-6">
+        <h2>Statistiques financières</h2>
+        <form method="post" action="">
+                    {% csrf_token %}
+                    {{ annee_form.annee_tag }} {{ annee_form.annee }}
+                    <br>
+                    
+                    <button type="submit" class="btn btn-info btn-sm">Calculer</button> {{ value|floatformat }}
+        <p>Total dépenses vétérinaire : {{ montant_total_visites|floatformat }} €</p>
+        <p>Total montants adoptions : {{ montant_total_adoptions }} €</p>
+        <p>Résultat financier : {{ resultat_financier|floatformat }} €</p>
+        <p>Coût moyen par adoption : {{ moyenne_par_animal|floatformat }} € 
+          (Chiot : {{ moyenne_chiots|floatformat }} € / Adulte : {{ moyenne_adultes|floatformat }} € / Sénior : {{ moyenne_seniors|floatformat }} € )</p>
+
+        <canvas id="type-visites-pie-chart" ></canvas>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script>
@@ -71,6 +90,33 @@ var adoptionPieChart = new Chart(document.getElementById("adoptions-pie"), {
     title: {
       display: true,
       text: 'Durée avant adoption'
+    }
+  }
+});
+
+var typeVisitesCanvas = document.getElementById('type-visites-pie-chart')
+var typeVisitesChart = new Chart(document.getElementById("type-visites-pie-chart"), {
+  type: 'pie',
+  data: {
+    labels: {{ labels_types|safe }},
+    datasets: [{
+        data: {{ data_type_visites|safe }},
+        label: "Types de visites",
+        backgroundColor: [
+      'rgb(99, 182, 17)',
+      'rgb(228, 241, 106)',
+      'rgb(255, 168, 86)',
+      'rgb(206, 52, 52)',
+      'rgb(52, 52, 206)',     
+      'rgb(52, 206, 206)',
+      ],
+      },
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Types de visites médicales'
     }
   }
 });
