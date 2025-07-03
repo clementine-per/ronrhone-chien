@@ -1,5 +1,6 @@
 import calendar
 import locale
+import sys
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -147,12 +148,14 @@ def index(request):
     # Données pour graphique répartition par types de visites
     labels_types = ["Soins groupés", "Vaccination seule", "Stérilisation seule", "Urgence et Chirurgie", "Consultations", "Autres"]
     data_type_visites = []
-    data_type_visites.append(visites.filter(type_visite__in=["PACK", "PACK_STE"]).count())
-    data_type_visites.append(visites.filter(type_visite__in=["VAC_PRIMO", "VAC_RAPPEL"]).count())
-    data_type_visites.append(visites.filter(type_visite__in=["STE"]).count())
-    data_type_visites.append(visites.filter(type_visite__in=["URGENCE", "CHIRURGIE"]).count())
-    data_type_visites.append(visites.filter(type_visite__in=["CONSULT"]).count())
-    data_type_visites.append(visites.filter(type_visite__in=["AUTRE","IDE", "OSTEO"]).count())
+    print (visites.filter(type_visite__in=["PACK", "PACK_STE"]).aggregate(Sum('montant'))['montant__sum'] or 0)
+    sys.stdout.flush()
+    data_type_visites.append(float(visites.filter(type_visite__in=["PACK", "PACK_STE"]).aggregate(Sum('montant'))['montant__sum'] or 0))
+    data_type_visites.append(float(visites.filter(type_visite__in=["VAC_PRIMO", "VAC_RAPPEL"]).aggregate(Sum('montant'))['montant__sum'] or 0))
+    data_type_visites.append(float(visites.filter(type_visite__in=["STE"]).aggregate(Sum('montant'))['montant__sum'] or 0))
+    data_type_visites.append(float(visites.filter(type_visite__in=["URGENCE", "CHIRURGIE"]).aggregate(Sum('montant'))['montant__sum'] or 0))
+    data_type_visites.append(float(visites.filter(type_visite__in=["CONSULT"]).aggregate(Sum('montant'))['montant__sum'] or 0))
+    data_type_visites.append(float(visites.filter(type_visite__in=["AUTRE","IDE", "OSTEO"]).aggregate(Sum('montant'))['montant__sum'] or 0))
 
 
     return render(request, "gestion_association/stats.html", locals())
