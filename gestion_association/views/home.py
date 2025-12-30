@@ -109,6 +109,8 @@ def index(request):
         .filter(indisponibilite__date_debut__lte=interval_10).count()
     # Animaux à déplacer manuellement (accueils arrivant à terme)
     accueils_a_deplacer = Accueil.objects.filter(statut=StatutAccueil.A_DEPLACER.name).count()
+    # Familles à sortir de la BNO
+    familles_a_sortir = Famille.objects.filter(statut='A_SORTIR').count()
 
     #Taux de remplissage
     familles_occupees =  Famille.objects.filter(animal__isnull=False).distinct().count()

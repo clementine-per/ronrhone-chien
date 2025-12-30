@@ -148,8 +148,6 @@ def index(request):
     # Données pour graphique répartition par types de visites
     labels_types = ["Soins groupés", "Vaccination seule", "Stérilisation seule", "Urgence et Chirurgie", "Consultations", "Autres"]
     data_type_visites = []
-    print (visites.filter(type_visite__in=["PACK", "PACK_STE"]).aggregate(Sum('montant'))['montant__sum'] or 0)
-    sys.stdout.flush()
     data_type_visites.append(float(visites.filter(type_visite__in=["PACK", "PACK_STE"]).aggregate(Sum('montant'))['montant__sum'] or 0))
     data_type_visites.append(float(visites.filter(type_visite__in=["VAC_PRIMO", "VAC_RAPPEL"]).aggregate(Sum('montant'))['montant__sum'] or 0))
     data_type_visites.append(float(visites.filter(type_visite__in=["STE"]).aggregate(Sum('montant'))['montant__sum'] or 0))
