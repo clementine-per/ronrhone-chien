@@ -106,7 +106,7 @@ def integrate_adoptions(request):
 
 def get_query():
     return 'query { boards(ids: [3101910912]) {\
-    groups(ids: ["1660740380_cn_reponses_adoptio"]) {\
+    groups(ids: ["group_mm1b7k73"]) {\
     items_page (limit: 15, query_params: {rules: [{column_id: "statut", compare_value: [0]}], operator: and})\
       { items {\
         id\
